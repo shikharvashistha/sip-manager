@@ -4,6 +4,9 @@ frontend/node_modules
 # Ignore Django's database file
 /backend/db.sqlite3
 
+# Ignore virtual environment
+/venv
+
 # Ignore compiled Python files
 __pycache__/
 *.pyc
