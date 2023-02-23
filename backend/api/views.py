@@ -44,7 +44,7 @@ class SignIn(APIView):
         if user is not None:
             login(request, user)
             token = Token.objects.get(user=user)
-            response = Response({"token": token.key}, status=status.HTTP_200_OK)
+            response = Response({"token": token.key, "userID": user.id}, status=status.HTTP_200_OK)
             return response
         else:
             return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
