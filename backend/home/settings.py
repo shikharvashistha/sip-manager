@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6o@8-t2hl5mdy#esq-fvten3l1-4uz%(ueq_7k!_pgyndrar(l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.104',"*"]
+ALLOWED_HOSTS = ['*', '0.0.0.0', 'localhost']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -85,6 +85,7 @@ DATABASES = {
     }
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

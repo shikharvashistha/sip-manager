@@ -27,9 +27,12 @@ class SignUp(APIView):
         user = User.objects.create_user(username=email, email=email, password=password)
         user.save()
 
+        wallet = UserWallet.objects.create(userID=user)
+        wallet.save()
+
         token = Token.objects.create(user=user)
         token.save()
-        return Response({"token": token.key}, status=status.HTTP_200_OK)
+        return Response({"token": token.key, "userID": user.id}, status=status.HTTP_201_CREATED)
 
 class SignIn(APIView):
     def post(self, request):
@@ -50,4 +53,4 @@ class SignIn(APIView):
 class SignOut(APIView):
     def post(self, request):
         logout(request)
-        return Response(status=status.HTTP_200_OK)
+        return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
