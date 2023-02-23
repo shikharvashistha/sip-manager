@@ -3,15 +3,25 @@ from .models import *
 
 class WalletSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Wallet
-        fields = ('walletID', 'userID')
+        model = UserWallet
+        fields = ('walletID', 'userID', 'isActive')
 
 class FixedAssetsSerializer(serializers.ModelSerializer):
     class Meta:
         model = FixedAssets
-        fields = ('FixedAssetID', 'FixedAssetName')
+        fields = ('FixedAssetID', 'FixedAssetCode')
 
-class AssetsSerializer(serializers.ModelSerializer):
+class UserWalletBalanceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Assets
-        fields = ('AssetID', 'WalletID', 'AssetID', 'Balance', 'Amount')
+        model = UserWalletBalance
+        fields = ('WalletBalanceID', 'walletID', 'AssetName', 'Balance')
+
+class SIPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SIP
+        fields = ('SIPID', 'SIPName', 'SIPAmount', 'SIPFrequency', 'SIPStartDate', 'SIPEndDate', 'SIPStatus')
+
+class SIPAssetsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SIPAssets
+        fields = ('SIPAssetID', 'SIPID', 'AssetName', 'AssetAmount', 'SIPAssetStatus')
