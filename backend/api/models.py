@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Wallet(models.Model):
+class UserWallet(models.Model):
     class Meta:
-        db_table = 'Wallet'
+        db_table = 'UserWallet'
         app_label = 'api'
     walletID = models.AutoField(primary_key=True)
     userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    isActive = models.BooleanField(default=True)
 
     def __str__(self):
         return self.walletID
@@ -16,20 +17,47 @@ class FixedAssets(models.Model):
         db_table = 'FixedAssets'
         app_label = 'api'
     FixedAssetID = models.AutoField(primary_key=True)
-    FixedAssetName = models.CharField(max_length=100)
+    FixedAssetCode = models.CharField(max_length=100)
 
     def __str__(self):
         return self.FixedAssetID
 
-class Assets(models.Model):
+class UserWalletBalance(models.Model):
     class Meta:
         db_table = 'Assets'
         app_label = 'api'
-    AssetID = models.AutoField(primary_key=True)
-    WalletID = models.ForeignKey(Wallet, on_delete=models.CASCADE)
-    AssetID = models.ForeignKey(FixedAssets, on_delete=models.CASCADE)
-    Balance = models.DecimalField(max_digits=10, decimal_places=2)
-    Amount = models.DecimalField(max_digits=10, decimal_places=2)
+    WalletBalanceID = models.AutoField(primary_key=True)
+    walletID = models.ForeignKey(UserWallet, on_delete=models.CASCADE)
+    AssetName = models.ForeignKey(FixedAssets, on_delete=models.CASCADE)
+    Balance = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.AssetID
+
+class SIP(models.Model):
+    class Meta:
+        db_table = 'SIP'
+        app_label = 'api'
+    SIPID = models.AutoField(primary_key=True)
+    SIPName = models.CharField(max_length=100)
+    SIPAmount = models.FloatField(default=0.0)
+    SIPFrequency = models.CharField(max_length=100)
+    SIPStartDate = models.DateField()
+    SIPEndDate = models.DateField()
+    SIPStatus = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.SIPID
+
+class SIPAssets(models.Model):
+    class Meta:
+        db_table = 'SIPAssets'
+        app_label = 'api'
+    SIPAssetID = models.AutoField(primary_key=True)
+    SIPID = models.ForeignKey(SIP, on_delete=models.CASCADE)
+    AssetName = models.ForeignKey(FixedAssets, on_delete=models.CASCADE)
+    AssetAmount = models.FloatField(default=0.0)
+    SIPAssetStatus = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.SIPAssetID

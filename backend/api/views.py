@@ -21,39 +21,33 @@ class SignUp(APIView):
         if password != confirm_password:
             return Response({"error": "Passwords don't match"}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.create_user(email, email, password)
-        wallet = Wallet.objects.create(userID=user)
-        token = Token.objects.create(user=user)
+        if User.objects.filter(email=email).exists():
+            return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = WalletSerializer(wallet)
-        response = Response(serializer.data)
-        response.set_cookie(key="token", value=token.key)
-        return response
+        user = User.objects.create_user(username=email, email=email, password=password)
+        user.save()
+
+        token = Token.objects.create(user=user)
+        token.save()
+        return Response({"token": token.key}, status=status.HTTP_200_OK)
 
 class SignIn(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
 
-        user = authenticate(username=email, password=password)
+        user = authenticate(request, username=email, email=email, password=password)
 
         if user is not None:
             login(request, user)
             token = Token.objects.get(user=user)
-            wallet = Wallet.objects.get(userID=user)
-            serializer = WalletSerializer(wallet)
-            response = Response(serializer.data)
-            response.set_cookie(key="token", value=token.key)
+            response = Response({"token": token.key}, status=status.HTTP_200_OK)
             return response
         else:
             return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
-class SignOut(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
 
+class SignOut(APIView):
     def post(self, request):
-        request.user.auth_token.delete()
-        response = Response(status=status.HTTP_200_OK)
-        response.delete_cookie('token')
-        return response
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
