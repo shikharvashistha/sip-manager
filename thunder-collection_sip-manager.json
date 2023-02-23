@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "sip-manager",
-    "dateExported": "2023-02-23T05:52:12.006Z",
+    "dateExported": "2023-02-23T06:08:47.854Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -14,7 +14,7 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-02-23T05:21:48.657Z",
-            "modified": "2023-02-23T05:51:50.571Z",
+            "modified": "2023-02-23T06:07:32.195Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -30,7 +30,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\":\"shikhar@gmail.com\",\n  \"password\":\"123\",\n  \"confirm_password\":\"123\"\n}",
+                "raw": "{\n  \"email\":\"shikha@gmail.com\",\n  \"password\":\"123\",\n  \"confirm_password\":\"123\"\n}",
                 "form": []
             },
             "tests": []
@@ -44,7 +44,7 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2023-02-23T05:21:48.658Z",
-            "modified": "2023-02-23T05:47:06.900Z",
+            "modified": "2023-02-23T06:07:44.503Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -60,7 +60,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\":\"shikhar@gmail.com\",\n  \"password\":\"123\"\n}",
+                "raw": "{\n  \"email\":\"shikha@gmail.com\",\n  \"password\":\"123\"\n}",
                 "form": []
             },
             "tests": []

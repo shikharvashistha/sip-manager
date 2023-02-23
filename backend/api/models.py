@@ -24,7 +24,7 @@ class FixedAssets(models.Model):
 
 class UserWalletBalance(models.Model):
     class Meta:
-        db_table = 'Assets'
+        db_table = 'UserWalletBalance'
         app_label = 'api'
     WalletBalanceID = models.AutoField(primary_key=True)
     walletID = models.ForeignKey(UserWallet, on_delete=models.CASCADE)
