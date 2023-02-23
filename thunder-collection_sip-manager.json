@@ -1,20 +1,20 @@
 {
     "client": "Thunder Client",
     "collectionName": "sip-manager",
-    "dateExported": "2023-02-22T06:33:18.387Z",
+    "dateExported": "2023-02-23T05:52:12.006Z",
     "version": "1.1",
     "folders": [],
     "requests": [
         {
-            "_id": "4b6914cc-e962-455d-b146-70496f55f789",
-            "colId": "89baf8f7-6025-4d14-8d8f-a75b79966f14",
+            "_id": "ef10771a-ee78-4f39-a744-a3c5a87477c8",
+            "colId": "62a069ce-ec9e-4f48-b241-95a41416ee7d",
             "containerId": "",
             "name": "sign-up",
             "url": "http://127.0.0.1:8000/sign/up/",
             "method": "POST",
             "sortNum": 10000,
-            "created": "2023-02-22T03:54:40.562Z",
-            "modified": "2023-02-22T06:30:45.513Z",
+            "created": "2023-02-23T05:21:48.657Z",
+            "modified": "2023-02-23T05:51:50.571Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -30,21 +30,21 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\":\"shikharr@gmail.com\",\n  \"password\":\"123\",\n  \"confirm_password\":\"123\"\n}",
+                "raw": "{\n  \"email\":\"shikhar@gmail.com\",\n  \"password\":\"123\",\n  \"confirm_password\":\"123\"\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "fd93f117-1fe8-45df-96be-1547a8d04a74",
-            "colId": "89baf8f7-6025-4d14-8d8f-a75b79966f14",
+            "_id": "98c397e7-b507-4a0a-8aa1-50fd931751b5",
+            "colId": "62a069ce-ec9e-4f48-b241-95a41416ee7d",
             "containerId": "",
             "name": "sign-in",
             "url": "http://127.0.0.1:8000/sign/in/",
             "method": "POST",
             "sortNum": 20000,
-            "created": "2023-02-22T04:30:46.697Z",
-            "modified": "2023-02-22T06:31:03.335Z",
+            "created": "2023-02-23T05:21:48.658Z",
+            "modified": "2023-02-23T05:47:06.900Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -60,21 +60,21 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\":\"shikharr@gmail.com\",\n  \"password\":\"123\"\n}",
+                "raw": "{\n  \"email\":\"shikhar@gmail.com\",\n  \"password\":\"123\"\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "3288d050-e1f9-43b3-b1b5-367c6b72fc93",
-            "colId": "89baf8f7-6025-4d14-8d8f-a75b79966f14",
+            "_id": "cfa37257-e61e-4069-801e-7d6e62b366b2",
+            "colId": "62a069ce-ec9e-4f48-b241-95a41416ee7d",
             "containerId": "",
             "name": "sign-out",
             "url": "http://127.0.0.1:8000/sign/out/",
             "method": "POST",
             "sortNum": 30000,
-            "created": "2023-02-22T04:32:09.274Z",
-            "modified": "2023-02-22T05:42:26.116Z",
+            "created": "2023-02-23T05:21:48.659Z",
+            "modified": "2023-02-23T05:21:48.659Z",
             "headers": [
                 {
                     "name": "Accept",
