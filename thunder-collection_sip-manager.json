@@ -1,20 +1,20 @@
 {
     "client": "Thunder Client",
     "collectionName": "sip-manager",
-    "dateExported": "2023-02-23T06:28:04.462Z",
+    "dateExported": "2023-02-24T03:29:36.926Z",
     "version": "1.1",
     "folders": [],
     "requests": [
         {
-            "_id": "f8ebb62c-318b-46cf-a86b-2f3d10dcb3a0",
-            "colId": "7728213b-592b-4380-b7ee-a1d87632e8da",
+            "_id": "9bb9fab9-2c48-425a-aa29-62cef06acd9d",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
             "containerId": "",
             "name": "sign-up",
             "url": "http://127.0.0.1:8000/sign/up/",
             "method": "POST",
             "sortNum": 10000,
-            "created": "2023-02-23T06:27:33.795Z",
-            "modified": "2023-02-23T06:27:33.795Z",
+            "created": "2023-02-24T02:39:43.578Z",
+            "modified": "2023-02-24T02:42:48.021Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -30,21 +30,21 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\":\"shikha@gmail.com\",\n  \"password\":\"123\",\n  \"confirm_password\":\"123\"\n}",
+                "raw": "{\n  \"email\":\"shikhar@gmail.com\",\n  \"password\":\"123\",\n  \"confirm_password\":\"123\"\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "0d443762-7ee0-47e5-bc2b-4b9a489c1445",
-            "colId": "7728213b-592b-4380-b7ee-a1d87632e8da",
+            "_id": "09a0a0a3-050c-4ea7-83a1-d92165bef93a",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
             "containerId": "",
             "name": "sign-in",
             "url": "http://127.0.0.1:8000/sign/in/",
             "method": "POST",
             "sortNum": 20000,
-            "created": "2023-02-23T06:27:33.797Z",
-            "modified": "2023-02-23T06:27:33.797Z",
+            "created": "2023-02-24T02:39:43.579Z",
+            "modified": "2023-02-24T02:46:23.207Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -60,21 +60,161 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\":\"shikha@gmail.com\",\n  \"password\":\"123\"\n}",
+                "raw": "{\n  \"email\":\"shikhar@gmail.com\",\n  \"password\":\"123\"\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "d67449e5-2367-4f5b-990f-2f8e912746dd",
-            "colId": "7728213b-592b-4380-b7ee-a1d87632e8da",
+            "_id": "d395cb21-b444-4e23-83ae-9006bbf3c221",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
             "containerId": "",
             "name": "sign-out",
             "url": "http://127.0.0.1:8000/sign/out/",
             "method": "POST",
             "sortNum": 30000,
-            "created": "2023-02-23T06:27:33.798Z",
-            "modified": "2023-02-23T06:27:33.798Z",
+            "created": "2023-02-24T02:39:43.580Z",
+            "modified": "2023-02-24T02:39:43.580Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "f906ca0d-2ce4-4e53-a6e6-b415eeb675d1",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
+            "containerId": "",
+            "name": "sip-create",
+            "url": "http://127.0.0.1:8000/user/create/1/sip/",
+            "method": "POST",
+            "sortNum": 35000,
+            "created": "2023-02-24T02:43:20.059Z",
+            "modified": "2023-02-24T03:09:46.747Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userID\":\"1\",\n  \"SIPName\":\"Shikhar SIP\",\n  \"SIPAmount\":1000.0,\n  \"SIPFrequency\":\"Monthly\",\n  \"SIPEndDate\":\"2023-02-24\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0ce11bef-274a-481e-957f-70235b195434",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
+            "containerId": "",
+            "name": "sip-add-asset",
+            "url": "http://127.0.0.1:8000/user/add/1/sip/2/asset/",
+            "method": "POST",
+            "sortNum": 37500,
+            "created": "2023-02-24T02:47:18.375Z",
+            "modified": "2023-02-24T03:28:26.479Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"FixedAssetCode\":\"BTC\",\n  \"userID\":\"1\",\n  \"SIPID\":\"1\",\n  \"AssetAmount\":2.0\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "6a539bc4-c89b-4fbb-9f75-bf07774e7637",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
+            "containerId": "",
+            "name": "sip remove asset",
+            "url": "http://127.0.0.1:8000/user/remove/1/sip/2/asset/",
+            "method": "POST",
+            "sortNum": 38750,
+            "created": "2023-02-24T03:00:55.190Z",
+            "modified": "2023-02-24T03:10:44.177Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"FixedAssetCode\":\"BTC\",\n  \"AssetAmount\":2.0\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "bd3feacf-3e92-4451-a3c3-541b157c65e4",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
+            "containerId": "",
+            "name": "sip-get",
+            "url": "http://127.0.0.1:8000/user/get/1/sip/",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-02-24T02:40:00.441Z",
+            "modified": "2023-02-24T02:41:28.986Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8e9edaa3-c05d-4e74-b84e-0774b08bb1e5",
+            "colId": "b38226a6-790e-41da-a7e9-4a01238d3f46",
+            "containerId": "",
+            "name": "user balance",
+            "url": "http://127.0.0.1:8000/user/get/1/balance/",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-02-24T02:59:38.824Z",
+            "modified": "2023-02-24T02:59:57.311Z",
             "headers": [
                 {
                     "name": "Accept",

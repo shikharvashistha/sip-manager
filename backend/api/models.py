@@ -39,6 +39,7 @@ class SIP(models.Model):
         db_table = 'SIP'
         app_label = 'api'
     SIPID = models.AutoField(primary_key=True)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
     SIPName = models.CharField(max_length=100)
     SIPAmount = models.FloatField(default=0.0)
     SIPFrequency = models.CharField(max_length=100)
