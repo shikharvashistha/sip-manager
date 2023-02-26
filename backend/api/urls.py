@@ -10,4 +10,7 @@ urlpatterns = [
     path('user/add/<int:userID>/sip/<int:sipID>/asset/', AddAssetToSIP.as_view(), name='addassettosip'),
     path('user/remove/<int:userID>/sip/<int:sipID>/asset/', RemoveAssetFromSIP.as_view(), name='removeassetfromsip'),
     path('user/get/<int:userID>/balance/', GetUserBalance.as_view(), name='getuserbalance'),
+    path('user/get/<int:userID>/balance/<str:fixedAssetCode>/', GetUserWalletBalance.as_view(), name='getuserwalletbalance'),
+    path('user/get/<int:userID>/balance/<str:fixedAssetCode>/total/', GetUserWalletBalanceTotal.as_view(), name='getuserwalletbalancetotal'),
+    path('user/get/<int:userID>/sip/<int:sipID>/balance/', GetSIPBalance.as_view(), name='getsipbalance'),
 ]
