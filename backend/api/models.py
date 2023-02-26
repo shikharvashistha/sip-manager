@@ -45,6 +45,7 @@ class SIP(models.Model):
     SIPFrequency = models.CharField(max_length=100)
     SIPStartDate = models.DateField()
     SIPEndDate = models.DateField()
+    EnoughBalance = models.BooleanField(default=True)
     SIPStatus = models.BooleanField(default=True)
 
     def __str__(self):
