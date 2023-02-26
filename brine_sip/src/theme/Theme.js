@@ -1,14 +1,19 @@
+import {Dimensions} from 'react-native';
+
+const {width, height} = Dimensions.get('screen');
 export const light = {
   primary: '#f7fffe',
   secondary: '#808191',
-  tertiary: '#626262',
+  tertiary: '#FFDF00',
   divider: '#BABABA',
+  card: '#242731',
   light: '#f7fffe',
   dark: '#191b20',
+  success: '#4fbf67',
   danger: '#ff7a68',
   primarytext: '#f7fffe',
   primarybg: '#1f2128',
-  secondarybg: 'hsla(0,0%,89.4%,.1)',
+  secondarybg: '#6c5dd3',
   titlesubstr1: '#1b1b1b',
   titlesubstr2: '#00B2FF',
   primarybtnbg: '#6c5dd3',
@@ -31,4 +36,10 @@ export const light = {
   inter_black: 'inter-black',
   inter_thin: 'inter-thin',
   inter_light: 'inter-light',
+};
+
+export const layout = {
+  layout_spacing: 25,
+  component_vertical_spcaing: 20,
+  card_width: width - 2 * 25,
 };

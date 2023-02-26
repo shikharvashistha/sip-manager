@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {light} from '../../theme/Theme';
-import Input from '../../components/Input';
-import Btn from '../../components/Button';
+import Input from '../../components/common/Input';
+import Btn from '../../components/common/Button';
 import Back from '../../assets/svg/back.svg';
 import {signupAction} from '../../actions/auth';
 import {useDispatch} from 'react-redux';

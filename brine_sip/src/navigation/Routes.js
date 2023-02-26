@@ -9,6 +9,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import AuthNav from './AuthNav';
 import UserNav from './UserNav';
+import {light} from '../theme/Theme';
 
 const Routes = () => {
   const {userId} = useSelector(state => state.user);
@@ -17,7 +18,7 @@ const Routes = () => {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: 'transparent',
+      background: light.primarybg,
     },
   };
   return (

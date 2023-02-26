@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
 import React, {useState} from 'react';
-import {light} from '../theme/Theme';
+import {light} from '../../theme/Theme';
 
 const {width, height} = Dimensions.get('screen');
 
