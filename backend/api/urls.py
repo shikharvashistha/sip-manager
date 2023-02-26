@@ -13,4 +13,5 @@ urlpatterns = [
     path('user/get/<int:userID>/balance/<str:fixedAssetCode>/', GetUserWalletBalance.as_view(), name='getuserwalletbalance'),
     path('user/get/<int:userID>/balance/<str:fixedAssetCode>/total/', GetUserWalletBalanceTotal.as_view(), name='getuserwalletbalancetotal'),
     path('user/get/<int:userID>/sip/<int:sipID>/balance/', GetSIPBalance.as_view(), name='getsipbalance'),
+    path('sip/cronjob/', SIPCronJob.as_view(), name='sipcronjob'),
 ]
