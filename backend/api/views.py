@@ -8,7 +8,8 @@ from rest_framework import status
 
 import datetime
 import requests
-
+import time
+import schedule
 
 from .models import *
 from .serializers import *
@@ -83,7 +84,6 @@ class CreateSIP(APIView):
         return Response({"message": "SIP created successfully", "SIPID": sip.SIPID}, status=status.HTTP_201_CREATED)
 
 class AddAssetToSIP(APIView):
-    #url looks like http://127.0.0.1:8000/user/add/1/sip/2/asset/
     def post(self, request, userID, sipID):
         user = User.objects.get(id=userID)
         sip = SIP.objects.get(SIPID=sipID)
@@ -124,50 +124,85 @@ class GetUserWalletBalance(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class GetUserWalletBalanceTotal(APIView):
-    def get(self, _, userID):
+    def get(self, _, userID, fixedAssetCode):
         user = User.objects.get(id=userID)
         wallet = UserWallet.objects.get(userID=user)
         walletBalance = UserWalletBalance.objects.filter(walletID=wallet)
         response = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
         data = response.json()
         priceList = []
+        price = 0
         for balance in walletBalance:
-            asset = FixedAssets.objects.get(FixedAssetCode=balance.FixedAssetCode)
-            price = data[asset.FixedAssetCode.lower()]["usd"]
+            asset = FixedAssets.objects.get(FixedAssetCode=balance.AssetName.FixedAssetCode)
+            if asset == "BTC":
+                price = data["bitcoin"]["usd"] * balance.Balance
             priceList.append(price)
         total = 0
         for balance in walletBalance:
             total += balance.Balance
         return Response({"total": total, "priceList": priceList}, status=status.HTTP_200_OK)
 
-class CheckSIPDate(APIView):
-    def get(self, _, userID):
-        user = User.objects.get(id=userID)
-        wallet = UserWallet.objects.get(userID=user)
-        sips = SIP.objects.filter(walletID=wallet)
-        for sip in sips:
-            if sip.SIPStartDate == datetime.date.today():
-                walletBalance = UserWalletBalance.objects.get(walletID=wallet, AssetName=FixedAssets.objects.get(FixedAssetCode='BTC'))
-                walletBalance.Balance -= sip.SIPAmount
-                walletBalance.save()
-                sipWalletBalance = UserWalletBalance.objects.get(walletID=sip.walletID, AssetName=FixedAssets.objects.get(FixedAssetCode='BTC'))
-                sipWalletBalance.Balance += sip.SIPAmount
-                sipWalletBalance.save()
-        return Response({"message": "SIP amount deducted successfully"}, status=status.HTTP_200_OK)
-
 class GetSIPBalance(APIView):
-    def get(self, _, userID):
+    def get(self, _, userID, sipID):
         user = User.objects.get(id=userID)
-        wallet = UserWallet.objects.get(userID=user)
-        sips = SIP.objects.filter(walletID=wallet)
+        sip = SIP.objects.get(SIPID=sipID)
+        sipAssets = SIPAssets.objects.filter(SIPID=sip)
         response = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
         data = response.json()
         priceList = []
-        for sip in sips:
-            asset = FixedAssets.objects.get(FixedAssetCode=sip.FixedAssetCode)
-            price = data[asset.FixedAssetCode.lower()]["usd"]
+        price = 0
+        for asset in sipAssets:
+            if asset.AssetCode == "BTC":
+                price = data["bitcoin"]["usd"] * asset.AssetAmount
             priceList.append(price)
         total = 0
-        for sip in sips:
-            total += sip.SIPAmount
+        for asset in sipAssets:
+            total += asset.AssetAmount
         return Response({"total": total, "priceList": priceList}, status=status.HTTP_200_OK)
+
+def job():
+    for sip in SIP.objects.all():
+            if sip.SIPFrequency == 'Monthly':
+                if datetime.datetime.now().day == 1:
+                    if sip.SIPStartDate <= datetime.datetime.now().date():
+                        if sip.SIPEndDate >= datetime.datetime.now().date():
+                            if sip.EnoughBalance == True:
+                                if sip.SIPStatus == True:
+                                    for userwalletbalance in UserWalletBalance.objects.all():
+                                        if userwalletbalance.walletID == sip.userID:
+                                            if userwalletbalance.Balance >= sip.SIPAmount:
+                                                userwalletbalance.Balance = userwalletbalance.Balance - sip.SIPAmount
+                                                userwalletbalance.save()
+                                                userwalletbalance2 = UserWalletBalance()
+                                                userwalletbalance2.walletID = sip.userID
+                                                userwalletbalance2.AssetName = sip.AssetName
+                                                userwalletbalance2.Balance = sip.SIPAmount
+                                                userwalletbalance2.save()
+                                            else:
+                                                sip.EnoughBalance = False
+                                                sip.save()
+                                else:
+                                    sip.SIPStatus = False
+                                    sip.save()
+                            else:
+                                sip.EnoughBalance = False
+                                sip.save()
+                        else:
+                            sip.SIPStatus = False
+                            sip.save()
+                    else:
+                        sip.SIPStatus = False
+                        sip.save()
+                else:
+                    sip.SIPStatus = False
+                    sip.save()
+            else:
+                sip.SIPStatus = False
+                sip.save()
+
+
+
+class SIPCronJob(APIView):
+    def get(self, _):
+        schedule.every().day.at("00:00").do(job)
+        return Response({"message": "Cron job scheduled successfully"}, status=status.HTTP_200_OK)
