@@ -1,11 +1,12 @@
 import {Dimensions} from 'react-native';
 
 const {width, height} = Dimensions.get('screen');
+
 export const light = {
   primary: '#f7fffe',
   secondary: '#808191',
   tertiary: '#FFDF00',
-  divider: '#BABABA',
+  divider: '#071e26',
   card: '#242731',
   light: '#f7fffe',
   dark: '#191b20',

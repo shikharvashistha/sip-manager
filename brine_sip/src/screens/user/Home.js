@@ -101,28 +101,50 @@ const Home = () => {
           <Text style={styles.sip_badge}>Default</Text>
           <Text style={styles.sip_name}>Investment Plan 1</Text>
           {/* <View style={styles.sip_card}></View> */}
-          <View style={styles.protfolio}>
-            <View style={styles.porfolio_item_wrapper}>
-              <Text style={styles.portfolio_heading}>Invested</Text>
-              <View style={styles.flex_row_center}>
-                <Text style={styles.portfolio_value}>0</Text>
-                <Text style={styles.returns_profit}>+0%</Text>
-              </View>
-            </View>
-            <View style={styles.porfolio_item_wrapper}>
-              <Text style={styles.portfolio_heading}>Current</Text>
-              <View style={styles.flex_row_center}>
-                <Text style={styles.portfolio_value}>0</Text>
-                <Text style={styles.returns_profit}>+0</Text>
-              </View>
-            </View>
+          <Text style={styles.spi_subhead}>
+            Max Investment (USDC) :{' '}
+            <Text style={{...styles.text_white, fontSize: 14}}>50/M</Text>{' '}
+          </Text>
+          <View style={styles.sip_assets}>
+            <FastImage
+              source={{
+                uri: 'https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663',
+              }}
+              style={styles.sip_asset_logo}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+            <FastImage
+              source={{
+                uri: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850',
+              }}
+              style={styles.sip_asset_logo}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+            <FastImage
+              source={{
+                uri: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
+              }}
+              style={styles.sip_asset_logo}
+              resizeMode={FastImage.resizeMode.contain}
+            />
           </View>
-
           <View style={styles.sip_props}>
-            <Text style={styles.spi_subhead}>
-              Max Investment (USDC) :{' '}
-              <Text style={{...styles.text_white, fontSize: 14}}>50/M</Text>{' '}
-            </Text>
+            <View style={styles.protfolio}>
+              <View style={styles.porfolio_item_wrapper}>
+                <Text style={styles.portfolio_heading}>Invested</Text>
+                <View style={styles.flex_row_center}>
+                  <Text style={styles.portfolio_value}>0</Text>
+                  <Text style={styles.returns_profit}>+0%</Text>
+                </View>
+              </View>
+              <View style={styles.porfolio_item_wrapper}>
+                <Text style={styles.portfolio_heading}>Current</Text>
+                <View style={styles.flex_row_center}>
+                  <Text style={styles.portfolio_value}>0</Text>
+                  <Text style={styles.returns_profit}>+0</Text>
+                </View>
+              </View>
+            </View>
             <Text
               style={{
                 ...styles.sip_inactive,
@@ -246,6 +268,21 @@ const styles = StyleSheet.create({
     width: CARD_WIDTH - 2 * layout.layout_spacing,
     backgroundColor: light.card,
     borderRadius: 10,
+  },
+  sip_assets: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    flexDirection: 'row-reverse',
+    margin: 10,
+    padding: 10,
+  },
+  sip_asset_logo: {
+    width: 30,
+    height: 30,
+    // backgroundColor: light.primarybg,
+    borderRadius: 20,
+    marginHorizontal: 3,
   },
   sip_badge: {
     position: 'absolute',

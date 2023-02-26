@@ -24,6 +24,7 @@ const Btn = ({
   btnMt,
   btnMb,
   borderRadius,
+  fontSize,
 }) => {
   return (
     <View>
@@ -43,7 +44,12 @@ const Btn = ({
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <Text style={{...styles.btnText, color: textColor || light.primary}}>
+          <Text
+            style={{
+              ...styles.btnText,
+              color: textColor || light.primary,
+              fontSize: fontSize || 14,
+            }}>
             {text}
           </Text>
         )}
@@ -58,7 +64,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnText: {
-    fontSize: 14,
     fontFamily: light.text_semibold,
   },
 });
