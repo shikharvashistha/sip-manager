@@ -39,8 +39,12 @@ class UserAssetsBalanceSerializer(serializers.ModelSerializer):
         userAssetsBalance = UserAssetsBalance.objects.create(**validated_data)
         userAssetsBalance.save()
         return userAssetsBalance
-
-    def updateUserWalletBalance(self, walletID, amount):
+    def deductUserWalletBalance(self, walletID, amount):
+        userAssetsBalance = UserAssetsBalance.objects.get(walletID=walletID)
+        userAssetsBalance.Balance = userAssetsBalance.Balance - amount
+        userAssetsBalance.save()
+        return userAssetsBalance
+    def addUserWalletBalance(self, walletID, amount):
         userAssetsBalance = UserAssetsBalance.objects.get(walletID=walletID)
         userAssetsBalance.Balance = userAssetsBalance.Balance + amount
         userAssetsBalance.save()

@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "sip-manager",
-    "dateExported": "2023-02-27T12:17:44.564Z",
+    "dateExported": "2023-02-27T13:06:26.218Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -99,11 +99,11 @@
             "method": "POST",
             "sortNum": 90000,
             "created": "2023-02-27T10:02:11.518Z",
-            "modified": "2023-02-27T11:42:49.217Z",
+            "modified": "2023-02-27T13:02:31.199Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -128,11 +128,11 @@
             "method": "POST",
             "sortNum": 92500,
             "created": "2023-02-27T11:51:45.596Z",
-            "modified": "2023-02-27T12:00:17.487Z",
+            "modified": "2023-02-27T13:02:39.963Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -162,11 +162,11 @@
             "method": "POST",
             "sortNum": 93750,
             "created": "2023-02-27T12:02:04.906Z",
-            "modified": "2023-02-27T12:03:57.646Z",
+            "modified": "2023-02-27T13:02:46.512Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -182,7 +182,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"SIPAmount\": 1000, \n  \"SIPFrequency\": \"Monthly\", \n  \"SIPStartDate\": \"2021-08-01\", \n  \"SIPEndDate\": \"2021-08-31\", \n  \"Assets\": [{\n    \"AssetName\": \"BTC\", \n    \"AssetPercentage\": 50, \n    \"AssetStatus\": true\n  }, \n    {\n      \"AssetName\": \"ETH\", \n      \"AssetPercentage\": 50, \n      \"AssetStatus\": true\n      \n    }\n    ]}",
+                "raw": "{\n  \"SIPAmount\": 1000,\n  \"SIPName\":\"abc\",\n  \"SIPFrequency\": \"Monthly\", \n  \"SIPStartDate\": \"2021-08-01\", \n  \"SIPEndDate\": \"2021-08-31\", \n  \"Assets\": [{\n    \"AssetName\": \"BTC\", \n    \"AssetPercentage\": 50, \n    \"AssetStatus\": true\n  }, \n    {\n      \"AssetName\": \"ETH\", \n      \"AssetPercentage\": 50, \n      \"AssetStatus\": true\n      \n    }\n    ]}",
                 "form": []
             },
             "tests": []
@@ -196,11 +196,11 @@
             "method": "POST",
             "sortNum": 95000,
             "created": "2023-02-27T11:43:00.705Z",
-            "modified": "2023-02-27T11:44:04.189Z",
+            "modified": "2023-02-27T13:02:55.210Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -216,7 +216,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"SIPAmount\":\"200\"\n}",
+                "raw": "{\n  \"SIPAmount\":\"200\",\n  \"SIPStatus\":true\n}",
                 "form": []
             },
             "tests": []
@@ -230,11 +230,11 @@
             "method": "POST",
             "sortNum": 97500,
             "created": "2023-02-27T11:49:03.586Z",
-            "modified": "2023-02-27T11:50:00.786Z",
+            "modified": "2023-02-27T13:03:02.989Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -264,11 +264,11 @@
             "method": "POST",
             "sortNum": 98750,
             "created": "2023-02-27T12:06:29.548Z",
-            "modified": "2023-02-27T12:07:29.081Z",
+            "modified": "2023-02-27T13:03:09.590Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -298,11 +298,11 @@
             "method": "GET",
             "sortNum": 100000,
             "created": "2023-02-27T10:21:04.404Z",
-            "modified": "2023-02-27T11:25:43.729Z",
+            "modified": "2023-02-27T13:03:18.293Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -323,15 +323,15 @@
             "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
             "containerId": "",
             "name": "Get user wallet assets (for the wallet page)",
-            "url": "http://127.0.0.1:8000/user/1/wallet/",
+            "url": "http://127.0.0.1:8000/user/1/sip/1/wallet/",
             "method": "GET",
             "sortNum": 110000,
             "created": "2023-02-27T10:41:51.818Z",
-            "modified": "2023-02-27T11:25:54.473Z",
+            "modified": "2023-02-27T13:03:25.389Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -356,11 +356,11 @@
             "method": "GET",
             "sortNum": 120000,
             "created": "2023-02-27T10:45:55.779Z",
-            "modified": "2023-02-27T11:26:09.685Z",
+            "modified": "2023-02-27T13:03:33.863Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -385,11 +385,11 @@
             "method": "GET",
             "sortNum": 130000,
             "created": "2023-02-27T11:36:16.105Z",
-            "modified": "2023-02-27T11:36:50.672Z",
+            "modified": "2023-02-27T13:03:41.990Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
@@ -414,11 +414,11 @@
             "method": "GET",
             "sortNum": 140000,
             "created": "2023-02-27T12:09:17.994Z",
-            "modified": "2023-02-27T12:09:50.835Z",
+            "modified": "2023-02-27T13:03:54.237Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token d6f60f1801639b423e7a7d60acca9d0df5c40691"
+                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
                 },
                 {
                     "name": "Accept",
