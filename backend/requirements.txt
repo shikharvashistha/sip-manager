@@ -1,7 +1,7 @@
 Django== 4.1.7
 pytz== 2022.7.1
 django-rest-auth== 0.9.5
-datetime== 4.3
+datetime== 5.0
 requests== 2.28.2
 schedule== 1.1.0
 urllib3== 1.26.14
