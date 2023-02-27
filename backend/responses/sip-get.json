@@ -1,0 +1,20 @@
+[
+  {
+    "SIPID": 1,
+    "SIPName": "Default SIP",
+    "SIPAmount": 100.0,
+    "SIPFrequency": "Monthly",
+    "SIPStartDate": "2023-02-27",
+    "SIPEndDate": "2024-02-27",
+    "SIPStatus": true
+  },
+  {
+    "SIPID": 2,
+    "SIPName": "Shikhar SIP",
+    "SIPAmount": 1000.0,
+    "SIPFrequency": "Monthly",
+    "SIPStartDate": "2023-02-27",
+    "SIPEndDate": "2023-02-24",
+    "SIPStatus": true
+  }
+]

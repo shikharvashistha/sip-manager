@@ -69,8 +69,7 @@ class SignOut(APIView):
 class SIPDetails(APIView):
     def get(self, _, userID):
         user = User.objects.get(id=userID)
-        wallet = UserWallet.objects.get(userID=user)
-        sips = SIP.objects.filter(walletID=wallet)
+        sips = SIP.objects.filter(userID=user)
         serializer = SIPSerializer(sips, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -89,7 +88,10 @@ class AddAssetToSIP(APIView):
         sip = SIP.objects.get(SIPID=sipID)
         asset = FixedAssets.objects.get(FixedAssetCode=request.data.get("FixedAssetCode"))
         if SIPAssets.objects.filter(SIPID=sip, AssetName=asset).exists():
-            return Response({"error": "Asset already present in the SIP"}, status=status.HTTP_400_BAD_REQUEST)
+            sipAsset = SIPAssets.objects.get(SIPID=sip, AssetName=asset)
+            sipAsset.AssetAmount += request.data.get("AssetAmount")
+            sipAsset.save()
+            return Response({"message": "Asset amount updated successfully"}, status=status.HTTP_200_OK)
         sipAsset = SIPAssets.objects.create(SIPID=sip, AssetName=asset, AssetAmount=request.data.get("AssetAmount"))
         sipAsset.save()
         return Response({"message": "Asset added to the SIP successfully"}, status=status.HTTP_200_OK)
@@ -127,20 +129,9 @@ class GetUserWalletBalanceTotal(APIView):
     def get(self, _, userID, fixedAssetCode):
         user = User.objects.get(id=userID)
         wallet = UserWallet.objects.get(userID=user)
-        walletBalance = UserWalletBalance.objects.filter(walletID=wallet)
-        response = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
-        data = response.json()
-        priceList = []
-        price = 0
-        for balance in walletBalance:
-            asset = FixedAssets.objects.get(FixedAssetCode=balance.AssetName.FixedAssetCode)
-            if asset == "BTC":
-                price = data["bitcoin"]["usd"] * balance.Balance
-            priceList.append(price)
-        total = 0
-        for balance in walletBalance:
-            total += balance.Balance
-        return Response({"total": total, "priceList": priceList}, status=status.HTTP_200_OK)
+        fixedAsset = FixedAssets.objects.get(FixedAssetCode=fixedAssetCode)
+        walletBalance = UserWalletBalance.objects.get(walletID=wallet, AssetName=fixedAsset)
+        return Response({"total": walletBalance.Balance}, status=status.HTTP_200_OK)
 
 class GetSIPBalance(APIView):
     def get(self, _, userID, sipID):
@@ -149,16 +140,12 @@ class GetSIPBalance(APIView):
         sipAssets = SIPAssets.objects.filter(SIPID=sip)
         response = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
         data = response.json()
-        priceList = []
-        price = 0
-        for asset in sipAssets:
-            if asset.AssetCode == "BTC":
-                price = data["bitcoin"]["usd"] * asset.AssetAmount
-            priceList.append(price)
         total = 0
-        for asset in sipAssets:
-            total += asset.AssetAmount
-        return Response({"total": total, "priceList": priceList}, status=status.HTTP_200_OK)
+        print(data)
+        for sipAsset in sipAssets:
+            if sipAsset.AssetName.FixedAssetCode == "BTC":
+                total += sipAsset.AssetAmount * data['bitcoin']['usd']
+        return Response({"total": total}, status=status.HTTP_200_OK)
 
 def job():
     for sip in SIP.objects.all():

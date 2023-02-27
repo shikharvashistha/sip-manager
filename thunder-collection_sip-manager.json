@@ -1,20 +1,20 @@
 {
     "client": "Thunder Client",
     "collectionName": "sip-manager",
-    "dateExported": "2023-02-26T14:18:13.456Z",
+    "dateExported": "2023-02-27T03:42:58.983Z",
     "version": "1.1",
     "folders": [],
     "requests": [
         {
-            "_id": "d76121c7-f94a-46ae-9f89-766b40b87a91",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "0f8aae2d-c025-48d7-8b81-c738e60db56c",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sign-up",
             "url": "http://127.0.0.1:8000/sign/up/",
             "method": "POST",
             "sortNum": 10000,
-            "created": "2023-02-26T13:35:08.400Z",
-            "modified": "2023-02-26T13:35:08.400Z",
+            "created": "2023-02-27T03:16:02.047Z",
+            "modified": "2023-02-27T03:16:02.047Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -36,15 +36,15 @@
             "tests": []
         },
         {
-            "_id": "5ea14cdf-2e16-437c-8727-40f7e1022dd5",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "a3566e80-4e33-4e56-b121-c620b1e51e06",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sign-in",
             "url": "http://127.0.0.1:8000/sign/in/",
             "method": "POST",
             "sortNum": 20000,
-            "created": "2023-02-26T13:35:08.402Z",
-            "modified": "2023-02-26T13:35:08.402Z",
+            "created": "2023-02-27T03:16:02.048Z",
+            "modified": "2023-02-27T03:16:02.048Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -66,15 +66,15 @@
             "tests": []
         },
         {
-            "_id": "68634bdf-c919-476b-8c43-64c66fedbd8f",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "a87d3643-81cb-4fc3-8d07-c131d3375104",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sign-out",
             "url": "http://127.0.0.1:8000/sign/out/",
             "method": "POST",
             "sortNum": 30000,
-            "created": "2023-02-26T13:35:08.403Z",
-            "modified": "2023-02-26T13:35:08.403Z",
+            "created": "2023-02-27T03:16:02.049Z",
+            "modified": "2023-02-27T03:16:02.049Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -91,15 +91,15 @@
             "tests": []
         },
         {
-            "_id": "6fdf00c2-9ba1-40b5-aac0-790153a1c3d6",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "a5ef72ee-1043-4778-bfc9-5b2c16c72434",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sip-create",
             "url": "http://127.0.0.1:8000/user/create/1/sip/",
             "method": "POST",
             "sortNum": 35000,
-            "created": "2023-02-26T13:35:08.404Z",
-            "modified": "2023-02-26T13:35:08.404Z",
+            "created": "2023-02-27T03:16:02.050Z",
+            "modified": "2023-02-27T03:16:02.050Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -121,15 +121,15 @@
             "tests": []
         },
         {
-            "_id": "7dae9c0c-b9b2-46a6-b299-59e7fe699afc",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "5ada4468-0ebc-4070-92d5-0d896bd5c0ed",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sip-add-asset",
             "url": "http://127.0.0.1:8000/user/add/1/sip/2/asset/",
             "method": "POST",
             "sortNum": 37500,
-            "created": "2023-02-26T13:35:08.405Z",
-            "modified": "2023-02-26T13:35:08.405Z",
+            "created": "2023-02-27T03:16:02.051Z",
+            "modified": "2023-02-27T03:16:02.051Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -151,15 +151,15 @@
             "tests": []
         },
         {
-            "_id": "d1fea576-0eef-4a22-8274-9834a9031ebc",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "f7e1afa7-f124-4d14-8c7c-fe99690d3ed1",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sip remove asset",
             "url": "http://127.0.0.1:8000/user/remove/1/sip/2/asset/",
             "method": "POST",
             "sortNum": 38750,
-            "created": "2023-02-26T13:35:08.406Z",
-            "modified": "2023-02-26T13:35:08.406Z",
+            "created": "2023-02-27T03:16:02.052Z",
+            "modified": "2023-02-27T03:16:02.052Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -181,15 +181,15 @@
             "tests": []
         },
         {
-            "_id": "ad787591-f1f2-4615-abfd-47d6cdac5e3a",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "c7b5e4b3-32f6-42a4-b8f6-a2009a135b03",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sip-get",
             "url": "http://127.0.0.1:8000/user/get/1/sip/",
             "method": "GET",
             "sortNum": 40000,
-            "created": "2023-02-26T13:35:08.407Z",
-            "modified": "2023-02-26T13:35:08.407Z",
+            "created": "2023-02-27T03:16:02.053Z",
+            "modified": "2023-02-27T03:16:02.053Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -206,15 +206,15 @@
             "tests": []
         },
         {
-            "_id": "074392bc-c9fc-434e-bcc4-a5f46a824dfc",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "24720203-e2d9-4458-b8a3-f1db1531603e",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "user balance",
             "url": "http://127.0.0.1:8000/user/get/1/balance/",
             "method": "GET",
             "sortNum": 50000,
-            "created": "2023-02-26T13:35:08.408Z",
-            "modified": "2023-02-26T13:35:08.408Z",
+            "created": "2023-02-27T03:16:02.054Z",
+            "modified": "2023-02-27T03:16:02.054Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -231,15 +231,15 @@
             "tests": []
         },
         {
-            "_id": "10bf25da-049b-4603-9af4-cdeadb64dc7c",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "49e7c682-2cd9-41ee-8e6a-7419aa1226a2",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "user wallet balance",
             "url": "http://127.0.0.1:8000/user/get/1/balance/BTC/",
             "method": "GET",
             "sortNum": 60000,
-            "created": "2023-02-26T13:35:58.524Z",
-            "modified": "2023-02-26T13:36:31.408Z",
+            "created": "2023-02-27T03:16:02.055Z",
+            "modified": "2023-02-27T03:16:02.055Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -256,15 +256,15 @@
             "tests": []
         },
         {
-            "_id": "dd50c802-de21-4e1a-a590-aafd7fd75909",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "15172b71-290e-4cf2-a518-b2dc4a5a6312",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "total user asset balance",
             "url": "http://127.0.0.1:8000/user/get/1/balance/BTC/total/",
             "method": "GET",
             "sortNum": 70000,
-            "created": "2023-02-26T13:36:46.268Z",
-            "modified": "2023-02-26T13:37:26.416Z",
+            "created": "2023-02-27T03:16:02.056Z",
+            "modified": "2023-02-27T03:16:02.056Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -281,15 +281,15 @@
             "tests": []
         },
         {
-            "_id": "3dfce22d-e069-4db3-ab2c-28c2dbee09da",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "813accb4-9b86-445e-9de6-8a86ea060adb",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "total sip balance",
             "url": "http://127.0.0.1:8000/user/get/1/sip/1/balance/",
             "method": "GET",
             "sortNum": 80000,
-            "created": "2023-02-26T13:42:23.271Z",
-            "modified": "2023-02-26T13:42:48.015Z",
+            "created": "2023-02-27T03:16:02.057Z",
+            "modified": "2023-02-27T03:16:02.057Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -306,15 +306,15 @@
             "tests": []
         },
         {
-            "_id": "9f89e88d-cb6d-41c0-aee1-2b113d5fb24e",
-            "colId": "825c5893-58d2-4310-a238-383d35c5fd5b",
+            "_id": "ece1adef-a12c-410b-9f02-8f82b1fcde90",
+            "colId": "7a346405-f19b-4682-b650-44219614b4fd",
             "containerId": "",
             "name": "sip cron",
             "url": "http://127.0.0.1:8000/sip/cronjob/",
             "method": "GET",
             "sortNum": 90000,
-            "created": "2023-02-26T14:05:51.658Z",
-            "modified": "2023-02-26T14:06:14.359Z",
+            "created": "2023-02-27T03:16:02.058Z",
+            "modified": "2023-02-27T03:16:02.058Z",
             "headers": [
                 {
                     "name": "Accept",
