@@ -1,20 +1,20 @@
 {
     "client": "Thunder Client",
     "collectionName": "sip-manager",
-    "dateExported": "2023-02-27T13:06:26.218Z",
+    "dateExported": "2023-02-27T17:59:31.517Z",
     "version": "1.1",
     "folders": [],
     "requests": [
         {
-            "_id": "0182070b-7f55-489d-9441-092a3916240d",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "9c3fb921-72be-449a-ab72-6dea4bd1e859",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "sign-up",
             "url": "http://127.0.0.1:8000/sign/up/",
             "method": "POST",
             "sortNum": 10000,
-            "created": "2023-02-27T10:02:11.507Z",
-            "modified": "2023-02-27T11:17:42.624Z",
+            "created": "2023-02-27T17:18:38.991Z",
+            "modified": "2023-02-27T17:18:38.991Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -36,15 +36,15 @@
             "tests": []
         },
         {
-            "_id": "d2948b67-c46c-4c10-ab34-758548f3b83f",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "30dd923b-b5b4-4c07-b82d-eae051ee72f1",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "sign-in",
             "url": "http://127.0.0.1:8000/sign/in/",
             "method": "POST",
             "sortNum": 20000,
-            "created": "2023-02-27T10:02:11.508Z",
-            "modified": "2023-02-27T10:02:11.508Z",
+            "created": "2023-02-27T17:18:38.993Z",
+            "modified": "2023-02-27T17:18:38.993Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -66,15 +66,15 @@
             "tests": []
         },
         {
-            "_id": "129ca6bf-34a2-4859-bc6a-2e3e26aeb6f8",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "fb75fc2e-49b5-4223-b673-93fb6a292714",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "sign-out",
             "url": "http://127.0.0.1:8000/sign/out/",
             "method": "POST",
             "sortNum": 30000,
-            "created": "2023-02-27T10:02:11.509Z",
-            "modified": "2023-02-27T10:02:11.509Z",
+            "created": "2023-02-27T17:18:38.994Z",
+            "modified": "2023-02-27T17:18:38.994Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -91,19 +91,19 @@
             "tests": []
         },
         {
-            "_id": "d7ab1775-5689-4fb7-957a-db93940b7106",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "612e4ca0-7603-44ba-b049-09607ba14113",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "sip cron",
             "url": "http://127.0.0.1:8000/sip/cronjob/",
             "method": "POST",
             "sortNum": 90000,
-            "created": "2023-02-27T10:02:11.518Z",
-            "modified": "2023-02-27T13:02:31.199Z",
+            "created": "2023-02-27T17:18:38.995Z",
+            "modified": "2023-02-27T17:35:53.342Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -120,19 +120,19 @@
             "tests": []
         },
         {
-            "_id": "f6a41d3e-30bb-4dd1-a6b5-d20fc3c313d3",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "0274ede6-8161-4f45-93b4-e64c77412994",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Wallet deposit",
             "url": "http://127.0.0.1:8000/user/1/wallet/deposit/",
             "method": "POST",
             "sortNum": 92500,
-            "created": "2023-02-27T11:51:45.596Z",
-            "modified": "2023-02-27T13:02:39.963Z",
+            "created": "2023-02-27T17:18:38.996Z",
+            "modified": "2023-02-27T17:42:38.727Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -154,19 +154,19 @@
             "tests": []
         },
         {
-            "_id": "9c750209-0180-4b57-88ab-b491820c76f4",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "919a41b4-a229-488e-ac5f-71cefa75957e",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Add Sip",
             "url": "http://127.0.0.1:8000/user/1/sip/add/",
             "method": "POST",
             "sortNum": 93750,
-            "created": "2023-02-27T12:02:04.906Z",
-            "modified": "2023-02-27T13:02:46.512Z",
+            "created": "2023-02-27T17:18:38.997Z",
+            "modified": "2023-02-27T17:44:39.059Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -182,25 +182,25 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"SIPAmount\": 1000,\n  \"SIPName\":\"abc\",\n  \"SIPFrequency\": \"Monthly\", \n  \"SIPStartDate\": \"2021-08-01\", \n  \"SIPEndDate\": \"2021-08-31\", \n  \"Assets\": [{\n    \"AssetName\": \"BTC\", \n    \"AssetPercentage\": 50, \n    \"AssetStatus\": true\n  }, \n    {\n      \"AssetName\": \"ETH\", \n      \"AssetPercentage\": 50, \n      \"AssetStatus\": true\n      \n    }\n    ]}",
+                "raw": "{\n  \"SIPAmount\": 1000,\n  \"SIPName\":\"abc\",\n  \"SIPFrequency\": \"Monthly\", \n  \"SIPStartDate\": \"2021-08-01\", \n  \"SIPEndDate\": \"2021-08-31\", \n  \"Assets\": [{\n    \"AssetName\": \"bitcoin\", \n    \"AssetPercentage\": 50, \n    \"AssetStatus\": true\n  }, \n    {\n      \"AssetName\": \"ethereum\", \n      \"AssetPercentage\": 50, \n      \"AssetStatus\": true\n      \n    }\n    ]}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "92329343-90f0-42ad-9ff6-9f2b049a0f87",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "86431d37-eb1d-49f5-b1ee-075aae63709d",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Edit sip (for updating the max monthly investment or sip status update)",
             "url": "http://127.0.0.1:8000/user/1/sip/1/edit/",
             "method": "POST",
             "sortNum": 95000,
-            "created": "2023-02-27T11:43:00.705Z",
-            "modified": "2023-02-27T13:02:55.210Z",
+            "created": "2023-02-27T17:18:38.998Z",
+            "modified": "2023-02-27T17:44:57.902Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -222,19 +222,19 @@
             "tests": []
         },
         {
-            "_id": "184df7b1-da9d-4348-8a36-1a73526380c8",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "1100698f-0f1f-4b9a-a24f-d2a3c5a38ad1",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Edit sip assets ",
             "url": "http://127.0.0.1:8000/user/1/sip/1/assets/edit",
             "method": "POST",
             "sortNum": 97500,
-            "created": "2023-02-27T11:49:03.586Z",
-            "modified": "2023-02-27T13:03:02.989Z",
+            "created": "2023-02-27T17:18:38.999Z",
+            "modified": "2023-02-27T17:47:31.648Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -250,25 +250,25 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{ \n  \"AssetName\": \"BTC\", \n  \"AssetPercentage\": 50, \n  \"AssetStatus\": true\n}",
+                "raw": "{ \n  \"AssetName\": \"bitcoin\", \n  \"AssetPercentage\": 50, \n  \"AssetStatus\": true\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "684a0af2-c310-4de3-9eb0-794dca26b9ed",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "20ad5cc7-c87b-4859-bef4-736d3c21cd2f",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Add asset to sip",
             "url": "http://127.0.0.1:8000/user/1/sip/1/assets/add/",
             "method": "POST",
             "sortNum": 98750,
-            "created": "2023-02-27T12:06:29.548Z",
-            "modified": "2023-02-27T13:03:09.590Z",
+            "created": "2023-02-27T17:18:39.000Z",
+            "modified": "2023-02-27T17:47:45.428Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -284,25 +284,25 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{ \n\"AssetName\": \"ETH\", \n\"AssetPercentage\": 10, \n\"AssetStatus\": true\n}",
+                "raw": "{ \n\"AssetName\": \"bitcoin\", \n\"AssetPercentage\": 10, \n\"AssetStatus\": true\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "e69e1d94-fe7d-48e4-a36e-4004f85f36e2",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "fb57b02a-d814-49a8-bf32-97ebe11b3d29",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Account overall Total balance",
             "url": "http://127.0.0.1:8000/user/1/balance/",
             "method": "GET",
             "sortNum": 100000,
-            "created": "2023-02-27T10:21:04.404Z",
-            "modified": "2023-02-27T13:03:18.293Z",
+            "created": "2023-02-27T17:18:39.001Z",
+            "modified": "2023-02-27T17:47:55.182Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -319,19 +319,19 @@
             "tests": []
         },
         {
-            "_id": "abd515e5-587c-42e5-b13a-680ab4b3d65d",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "ebfc7ea4-2f37-4448-928d-e42f4eab0963",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Get user wallet assets (for the wallet page)",
-            "url": "http://127.0.0.1:8000/user/1/sip/1/wallet/",
+            "url": "http://127.0.0.1:8000/user/1/wallet/",
             "method": "GET",
             "sortNum": 110000,
-            "created": "2023-02-27T10:41:51.818Z",
-            "modified": "2023-02-27T13:03:25.389Z",
+            "created": "2023-02-27T17:18:39.002Z",
+            "modified": "2023-02-27T17:48:03.926Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -348,19 +348,19 @@
             "tests": []
         },
         {
-            "_id": "9b6a39ac-5fbb-4bc1-97f3-81f7ef2f2569",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "f92a41be-7bb9-4645-86fe-a862e8e74064",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Get SIPS ",
             "url": "http://127.0.0.1:8000/user/1/sip/",
             "method": "GET",
             "sortNum": 120000,
-            "created": "2023-02-27T10:45:55.779Z",
-            "modified": "2023-02-27T13:03:33.863Z",
+            "created": "2023-02-27T17:18:39.003Z",
+            "modified": "2023-02-27T17:50:42.421Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -377,19 +377,19 @@
             "tests": []
         },
         {
-            "_id": "6f6da0c2-77f7-47d3-bd8a-ba260f4eccad",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "bd93a48e-92ca-4de5-8de8-d7813da168d6",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Get sip assets",
             "url": "http://127.0.0.1:8000/user/1/sip/1/assets/",
             "method": "GET",
             "sortNum": 130000,
-            "created": "2023-02-27T11:36:16.105Z",
-            "modified": "2023-02-27T13:03:41.990Z",
+            "created": "2023-02-27T17:18:39.004Z",
+            "modified": "2023-02-27T17:44:01.411Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -406,19 +406,19 @@
             "tests": []
         },
         {
-            "_id": "144bacb8-7885-417c-8b6a-90671c40a646",
-            "colId": "5fe2fa11-46c0-4cb2-8f74-881cdd2a3a63",
+            "_id": "fd544d7b-94b6-4501-b731-51741ee34052",
+            "colId": "0bbdb01f-57ff-4e93-8120-8e217a31ed0b",
             "containerId": "",
             "name": "Get fixed assets ",
             "url": "http://127.0.0.1:8000/fixed/assets/",
             "method": "GET",
             "sortNum": 140000,
-            "created": "2023-02-27T12:09:17.994Z",
-            "modified": "2023-02-27T13:03:54.237Z",
+            "created": "2023-02-27T17:18:39.005Z",
+            "modified": "2023-02-27T17:51:03.601Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Token 129f8785b2cf4e3a48e29312abc83fe95ba125d9"
+                    "value": "Token ad80f0d361c5ca2e15b2c2355d07d7468f11b609"
                 },
                 {
                     "name": "Accept",
@@ -434,5 +434,6 @@
             "params": [],
             "tests": []
         }
-    ]
+    ],
+    "settings": {}
 }
