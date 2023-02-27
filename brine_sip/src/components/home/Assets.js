@@ -4,12 +4,6 @@ import {getCryptoValues} from '../../actions/coinGeko';
 import {layout, light} from '../../theme/Theme';
 import FastImage from 'react-native-fast-image';
 
-const {width, height} = Dimensions.get('screen');
-const LAYOUT_SPACING = 25;
-const AVATAR_WIDTH_HEIGHT = 40;
-const COMPONENT_VERITAL_SPACING = 20;
-const CARD_WIDTH = width - 2 * LAYOUT_SPACING;
-
 const Assets = memo(() => {
   const [data, setData] = useState();
 
@@ -20,7 +14,6 @@ const Assets = memo(() => {
   useEffect(() => {
     getAssets();
   }, []);
-  console.log(data);
   return (
     <View style={styles.container}>
       <Text style={styles.sub_heading}>Explore Assets</Text>
@@ -33,7 +26,9 @@ const Assets = memo(() => {
                 style={{width: 25, height: 25}}
                 resizeMode={FastImage.resizeMode.contain}
               />
-              <Text style={styles.asset_card_heading}>{item.symbol}/usdc</Text>
+              <Text style={styles.asset_card_heading}>
+                {(item.symbol + '/usdc').toUpperCase()}
+              </Text>
             </View>
             <View style={{...styles.flex_row_center, marginTop: 10}}>
               <Text style={{...styles.current_price}}>
@@ -87,7 +82,7 @@ const styles = StyleSheet.create({
   asset_card_heading: {
     fontFamily: light.text_semibold,
     marginHorizontal: 10,
-    fontSize: 12,
+    fontSize: 11,
     color: light.primary,
   },
   flex_row_center: {

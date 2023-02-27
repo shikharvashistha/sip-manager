@@ -10,6 +10,8 @@ import avatar from '../../assets/png/avatar.png';
 import LinearGradient from 'react-native-linear-gradient';
 import {ScrollView} from 'react-native-gesture-handler';
 import Assets from '../../components/home/Assets';
+import {getWalletBalence} from '../../actions/wallet';
+import SipCard from '../../components/home/SipCard';
 
 const {width, height} = Dimensions.get('screen');
 const LAYOUT_SPACING = 25;
@@ -18,16 +20,31 @@ const COMPONENT_VERITAL_SPACING = 20;
 const CARD_WIDTH = width - 2 * LAYOUT_SPACING;
 
 const Home = () => {
-  const {email} = useSelector(state => state.user);
+  const {email, userId} = useSelector(state => state.user);
+  const [totalBalance, setTotalBalance] = useState(0);
+  const [invested, setInvested] = useState(0);
+  const [current, setCurrent] = useState(0);
+
   const dispatch = useDispatch();
 
   const [userName, setUserName] = useState();
+
+  const initialFunction = async () => {
+    try {
+      const {data} = await getWalletBalence({userID: userId});
+      console.log(data[0].Balance);
+      setTotalBalance(data[0].Balance);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const full_name = email.split('@')[0];
     const first_name = full_name.split('.')[0];
     if (first_name) setUserName(first_name);
     else setUserName(full_name);
+    initialFunction();
   }, []);
 
   const signout = async () => {
@@ -57,7 +74,9 @@ const Home = () => {
           <View>
             <Text style={styles.balance_lable}>Total Balance</Text>
             <View style={styles.flex_row_center}>
-              <Text style={styles.total_balance}>300.34</Text>
+              <Text style={styles.total_balance}>
+                {totalBalance.toFixed(2)}
+              </Text>
               <Text style={styles.base_coin}>USDC</Text>
             </View>
           </View>
@@ -65,15 +84,34 @@ const Home = () => {
             <View style={styles.porfolio_item_wrapper}>
               <Text style={styles.portfolio_heading}>Invested</Text>
               <View style={styles.flex_row_center}>
-                <Text style={styles.portfolio_value}>100.45</Text>
-                <Text style={styles.returns_profit}>+300%</Text>
+                <Text style={styles.portfolio_value}>
+                  {invested.toFixed(2)}
+                </Text>
+                <Text
+                  style={
+                    current - invested >= 0
+                      ? styles.returns_profit
+                      : styles.returns_loss
+                  }>
+                  {invested === 0
+                    ? (0).toFixed(2)
+                    : (current - invested) / current}
+                  %
+                </Text>
               </View>
             </View>
             <View style={styles.porfolio_item_wrapper}>
               <Text style={styles.portfolio_heading}>Current</Text>
               <View style={styles.flex_row_center}>
-                <Text style={styles.portfolio_value}>300.34</Text>
-                <Text style={styles.returns_profit}>+200</Text>
+                <Text style={styles.portfolio_value}>{current.toFixed(2)}</Text>
+                <Text
+                  style={
+                    current - invested >= 0
+                      ? styles.returns_profit
+                      : styles.returns_loss
+                  }>
+                  {(current - invested).toFixed(2)}
+                </Text>
               </View>
             </View>
           </View>
@@ -97,64 +135,9 @@ const Home = () => {
           />
         </LinearGradient>
         {/* sips */}
-        <View style={styles.sip_wapper}>
-          <Text style={styles.sip_badge}>Default</Text>
-          <Text style={styles.sip_name}>Investment Plan 1</Text>
-          {/* <View style={styles.sip_card}></View> */}
-          <Text style={styles.spi_subhead}>
-            Max Investment (USDC) :{' '}
-            <Text style={{...styles.text_white, fontSize: 14}}>50/M</Text>{' '}
-          </Text>
-          <View style={styles.sip_assets}>
-            <FastImage
-              source={{
-                uri: 'https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663',
-              }}
-              style={styles.sip_asset_logo}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-            <FastImage
-              source={{
-                uri: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850',
-              }}
-              style={styles.sip_asset_logo}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-            <FastImage
-              source={{
-                uri: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
-              }}
-              style={styles.sip_asset_logo}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-          </View>
-          <View style={styles.sip_props}>
-            <View style={styles.protfolio}>
-              <View style={styles.porfolio_item_wrapper}>
-                <Text style={styles.portfolio_heading}>Invested</Text>
-                <View style={styles.flex_row_center}>
-                  <Text style={styles.portfolio_value}>0</Text>
-                  <Text style={styles.returns_profit}>+0%</Text>
-                </View>
-              </View>
-              <View style={styles.porfolio_item_wrapper}>
-                <Text style={styles.portfolio_heading}>Current</Text>
-                <View style={styles.flex_row_center}>
-                  <Text style={styles.portfolio_value}>0</Text>
-                  <Text style={styles.returns_profit}>+0</Text>
-                </View>
-              </View>
-            </View>
-            <Text
-              style={{
-                ...styles.sip_inactive,
-                ...styles.sip_activity_indicator,
-              }}>
-              Inactive
-            </Text>
-          </View>
-        </View>
-        <Assets CARD_WIDTH={CARD_WIDTH} />
+        <SipCard />
+        {/* assets */}
+        <Assets />
       </ScrollView>
       {/* <Btn text="signout" onPress={signout} bg={light.primarybtnbg} /> */}
     </View>
@@ -183,7 +166,7 @@ const styles = StyleSheet.create({
     color: light.primary,
   },
   account_overview: {
-    width: CARD_WIDTH,
+    width: layout.card_width,
     // height: 210,
     backgroundColor: light.dark,
     borderRadius: 25,
@@ -228,14 +211,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     color: light.success,
   },
+  returns_loss: {
+    fontFamily: light.text_semibold,
+    fontSize: 11,
+    marginHorizontal: 4,
+    color: light.danger,
+  },
   portfolio_value: {
     fontFamily: light.text_semibold,
     fontSize: 15,
     color: light.primary,
   },
   balance_banner: {
-    width: CARD_WIDTH,
-    // height: 70,
+    width: layout.card_width,
     backgroundColor: light.primarybtnbg,
     marginBottom: layout.component_vertical_spcaing,
     borderRadius: 15,
@@ -248,79 +236,7 @@ const styles = StyleSheet.create({
   banner_title: {
     fontFamily: light.text_semibold,
     color: light.primary,
-    width: CARD_WIDTH * 0.5,
-  },
-  sip_wapper: {
-    marginBottom: layout.component_vertical_spcaing,
-    width: CARD_WIDTH,
-    backgroundColor: light.card,
-    // height: 200,
-    borderRadius: 20,
-    paddingHorizontal: layout.layout_spacing,
-    paddingVertical: layout.component_vertical_spcaing,
-  },
-  sip_name: {
-    fontFamily: light.text_semibold,
-    color: light.primary,
-    marginBottom: 5,
-  },
-  sip_card: {
-    width: CARD_WIDTH - 2 * layout.layout_spacing,
-    backgroundColor: light.card,
-    borderRadius: 10,
-  },
-  sip_assets: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    flexDirection: 'row-reverse',
-    margin: 10,
-    padding: 10,
-  },
-  sip_asset_logo: {
-    width: 30,
-    height: 30,
-    // backgroundColor: light.primarybg,
-    borderRadius: 20,
-    marginHorizontal: 3,
-  },
-  sip_badge: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 5,
-    paddingHorizontal: 20,
-    fontSize: 11,
-    fontFamily: light.text_semibold,
-    backgroundColor: light.dark,
-    color: light.tertiary,
-    borderBottomLeftRadius: 10,
-  },
-  sip_props: {
-    marginTop: 10,
-  },
-  spi_subhead: {
-    fontFamily: light.text_semibold,
-    color: light.secondary,
-    fontSize: 12,
-  },
-  sip_activity_indicator: {
-    fontFamily: light.text_semibold,
-    fontSize: 10,
-    paddingTop: 5,
-    paddingBottom: 4,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    backgroundColor: light.dark,
-    width: 100,
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  sip_inactive: {
-    color: light.danger,
-  },
-  sip_active: {
-    color: light.success,
+    width: layout.card_width * 0.5,
   },
 
   text_white: {

@@ -12,6 +12,8 @@ import Routes from './src/navigation/Routes';
 import {persistor, store} from './src/redux/store';
 import {light} from './src/theme/Theme';
 // import {persistor, store} from './src/redux/store';
+import 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -25,7 +27,9 @@ function App() {
             backgroundColor="transparent"
             animated={true}
           />
-          <Routes />
+          <GestureHandlerRootView style={{flex: 1}}>
+            <Routes />
+          </GestureHandlerRootView>
         </SafeAreaView>
       </PersistGate>
     </Provider>

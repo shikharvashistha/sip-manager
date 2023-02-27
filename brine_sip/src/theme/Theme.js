@@ -12,6 +12,7 @@ export const light = {
   dark: '#191b20',
   success: '#4fbf67',
   danger: '#ff7a68',
+  dangertint: '#ff6666',
   primarytext: '#f7fffe',
   primarybg: '#1f2128',
   secondarybg: '#6c5dd3',

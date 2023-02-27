@@ -23,8 +23,12 @@ const Btn = ({
   btnPadding,
   btnMt,
   btnMb,
+  btnMl,
+  btnMr,
   borderRadius,
   fontSize,
+  borderWidth,
+  borderColor,
 }) => {
   return (
     <View>
@@ -35,10 +39,14 @@ const Btn = ({
           backgroundColor: bg,
           opacity: loading ? 0.6 : 1,
           width: btnWidth || width * 0.8,
-          padding: btnPadding || 17,
-          marginTop: btnMt || BTN_TOP_SPACING,
-          marginBottom: btnMb || BTN_BOTTOM_SPACING,
+          padding: btnPadding === 0 ? 0 : btnPadding || 17,
+          marginTop: btnMt === 0 ? 0 : btnMt || BTN_TOP_SPACING,
+          marginBottom: btnMb === 0 ? 0 : btnMb || BTN_BOTTOM_SPACING,
+          marginLeft: btnMl || 0,
+          marginRight: btnMr || 0,
           borderRadius: borderRadius || 15,
+          borderWidth: borderWidth || 0,
+          borderColor: borderColor || 'transparent',
         }}
         onPress={onPress}>
         {loading ? (

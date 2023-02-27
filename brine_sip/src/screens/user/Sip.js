@@ -1,10 +1,18 @@
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import React from 'react';
 import {layout, light} from '../../theme/Theme';
 import Btn from '../../components/common/Button';
 import Card from '../../components/sip/Card';
+import BottomSheet from '../../components/common/BottomSheet';
+import {useSharedValue, withTiming} from 'react-native-reanimated';
+
+const {width, height} = Dimensions.get('screen');
+const bottomSheet = height * 0.87;
+const initialSheetPos = bottomSheet * 0.36;
 
 const Sip = () => {
+  const bottomSheetY = useSharedValue(0);
+
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -14,15 +22,10 @@ const Sip = () => {
       id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
       title: 'Second Item',
     },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-    {
-      id: '5869a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
   ];
+  const onEdit = () => {
+    bottomSheetY.value = withTiming(-bottomSheet);
+  };
   return (
     <View style={styles.container}>
       <FlatList
@@ -43,19 +46,20 @@ const Sip = () => {
             />
           </View>
         )}
-        renderItem={({item}) => <Card />}
+        renderItem={({item}) => <Card onEdit={onEdit} />}
         keyExtractor={item => item.id}
         stickyHeaderIndices={[0]}
         bounces={false}
       />
+      <BottomSheet bottomSheetY={bottomSheetY} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: layout.layout_spacing,
+    // flex: 1,
+    paddingHorizontal: layout.layout_spacing,
     paddingTop: layout.component_vertical_spcaing,
   },
   heading: {

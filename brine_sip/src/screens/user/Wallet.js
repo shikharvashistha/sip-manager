@@ -5,17 +5,31 @@ import Btn from '../../components/common/Button';
 import {getCryptoValues} from '../../actions/coinGeko';
 import {ScrollView} from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
+import {getWalletBalence} from '../../actions/wallet';
+import {useSelector} from 'react-redux';
+import AssetCard from '../../components/home/AssetCard';
 
 const Wallet = () => {
   const [data, setData] = useState();
+  const {userId} = useSelector(state => state.user);
+  const [totalBalance, setTotalBalance] = useState(0);
+  const [invested, setInvested] = useState(0);
+  const [current, setCurrent] = useState(0);
+
+  const initialFunction = async () => {
+    try {
+      const {data} = await getWalletBalence({userID: userId});
+      setData(data);
+      setTotalBalance(data[0].Balance);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    getAssets();
+    // getAssets();
+    initialFunction();
   }, []);
-
-  const getAssets = async () => {
-    await getCryptoValues(setData);
-  };
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -23,21 +37,41 @@ const Wallet = () => {
       <View style={styles.wallet_amount_wrapper}>
         <Text style={styles.wallet_label}>Your Wallet</Text>
         <Text style={styles.wallet_amount}>
-          300.45 <Text style={styles.base_coin}>USDC</Text>
+          {totalBalance.toFixed(2)} <Text style={styles.base_coin}>USDC</Text>
         </Text>
         <View style={styles.protfolio}>
           <View style={styles.porfolio_item_wrapper}>
             <Text style={styles.portfolio_heading}>Invested</Text>
             <View style={styles.flex_row_center}>
-              <Text style={styles.portfolio_value}>100.45</Text>
-              <Text style={styles.returns_profit}>+300%</Text>
+              <Text style={styles.portfolio_value}>{invested.toFixed(2)}</Text>
+              <Text
+                style={
+                  current - invested >= 0
+                    ? styles.returns_profit
+                    : styles.returns_loss
+                }>
+                {invested === 0
+                  ? (0).toFixed(2)
+                  : (current - invested) / current}
+                %
+              </Text>
             </View>
           </View>
           <View style={styles.porfolio_item_wrapper}>
             <Text style={styles.portfolio_heading}>Current</Text>
             <View style={styles.flex_row_center}>
-              <Text style={styles.portfolio_value}>300.34</Text>
-              <Text style={styles.returns_profit}>+200</Text>
+              <Text style={styles.portfolio_value}>{invested.toFixed(2)}</Text>
+              <Text
+                style={
+                  current - invested >= 0
+                    ? styles.returns_profit
+                    : styles.returns_loss
+                }>
+                {invested === 0
+                  ? (0).toFixed(2)
+                  : (current - invested) / current}
+                %
+              </Text>
             </View>
           </View>
         </View>
@@ -55,41 +89,7 @@ const Wallet = () => {
       <View style={styles.assets_wrapper}>
         <Text style={styles.asset_label}>Your Assets</Text>
         {data?.map(item => (
-          <View style={styles.asset_item}>
-            <View style={styles.asset_sub_item}>
-              <View style={styles.flex_row_center}>
-                <FastImage
-                  source={{uri: item.image}}
-                  style={{width: 30, height: 30}}
-                  resizeMode={FastImage.resizeMode.contain}
-                />
-                <Text style={styles.asset_card_heading}>{item.symbol}</Text>
-              </View>
-              {item.price_change_percentage_24h < 0 ? (
-                <Text style={styles.negitive_percentage}>
-                  {item.price_change_percentage_24h}%
-                </Text>
-              ) : (
-                <Text style={styles.positive_percentage}>
-                  {item.price_change_percentage_24h}%
-                </Text>
-              )}
-            </View>
-            <View style={{...styles.asset_sub_item, marginTop: 10}}>
-              <View>
-                <Text style={styles.asset_value_lable}>Balance</Text>
-                <Text style={styles.asset_value}>0.000004</Text>
-              </View>
-              <View>
-                <Text style={{...styles.asset_value_lable, textAlign: 'right'}}>
-                  USDC
-                </Text>
-                <Text style={styles.asset_value}>
-                  {(0.000004 * item.current_price).toFixed(6)}
-                </Text>
-              </View>
-            </View>
-          </View>
+          <AssetCard item={item} key={item.AssetName} />
         ))}
       </View>
     </ScrollView>
@@ -142,6 +142,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     marginHorizontal: 4,
     color: light.success,
+  },
+  returns_loss: {
+    fontFamily: light.text_semibold,
+    fontSize: 11,
+    marginHorizontal: 4,
+    color: light.danger,
   },
   portfolio_value: {
     fontFamily: light.text_semibold,

@@ -19,13 +19,13 @@ import Animated, {
 } from 'react-native-reanimated';
 import Btn from '../common/Button';
 
-const Card = () => {
+const Card = ({onEdit}) => {
   const assetRef = useRef(null);
   const cardRef = useRef(null);
   const [assetsHeight, setAssetsHeight] = useState(null);
   const [flag, setFlag] = useState(0);
 
-  const asset_height = useSharedValue(200);
+  const asset_height = useSharedValue(220);
   const animatedStyle = useAnimatedStyle(() => {
     return {
       height: asset_height.value,
@@ -42,16 +42,21 @@ const Card = () => {
       );
     }
   }, [assetRef?.current]);
+
   return (
     <TouchableWithoutFeedback
       style={styles.tochable}
       onPress={() => {
         asset_height.value =
-          asset_height.value === 200
-            ? withTiming(200 + (assetsHeight || 0))
-            : withTiming(200);
+          asset_height.value === 220
+            ? withTiming(asset_height.value + (assetsHeight || 0))
+            : withTiming(220);
       }}>
       <Animated.View style={[styles.plan_card, animatedStyle]} ref={cardRef}>
+        <Text style={styles.sip_badge}>
+          {/* <Text style={styles.text_danger}>Inactive</Text> */}
+          <Text style={styles.text_success}>Active</Text>
+        </Text>
         <View style={styles.sip_details}>
           <Text style={styles.sip_name}>SIP Plan 1</Text>
           <Text style={styles.sip_subname}>
@@ -74,7 +79,36 @@ const Card = () => {
               </View>
             </View>
           </View>
+          <View style={styles.flex_row_center}>
+            <Btn
+              text="Edit"
+              btnMb={5}
+              btnMt={5}
+              bg={light.primarybg}
+              btnPadding={7}
+              borderRadius={7}
+              btnWidth={100}
+              fontSize={12}
+              btnMr={15}
+              onPress={onEdit}
+            />
+            {/* <Btn
+              bg="transparent"
+              text="Deactivate"
+              btnMb={5}
+              btnMt={5}
+              // bg={light.danger}
+              btnPadding={7}
+              borderRadius={7}
+              btnWidth={120}
+              fontSize={11}
+              borderWidth={0.5}
+              textColor={light.dangertint}
+              borderColor={light.dangertint}
+            /> */}
+          </View>
         </View>
+
         <View style={styles.sip_assets} ref={assetRef}>
           <AssetItem />
           <AssetItem />
@@ -98,7 +132,7 @@ const styles = StyleSheet.create({
   },
   sip_details: {
     padding: layout.layout_spacing,
-    height: 200,
+    height: 220,
   },
   sip_assets: {
     paddingHorizontal: layout.layout_spacing,
@@ -124,6 +158,17 @@ const styles = StyleSheet.create({
     fontFamily: light.text_semibold,
     color: light.primary,
     fontSize: 14,
+  },
+  sip_badge: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 5,
+    paddingHorizontal: 20,
+    fontSize: 11,
+    fontFamily: light.text_semibold,
+    backgroundColor: light.dark,
+    borderBottomLeftRadius: 10,
   },
   asset_name: {
     fontFamily: light.text_semibold,
@@ -179,6 +224,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: light.card,
+  },
+  text_success: {
+    color: light.success,
+  },
+  text_danger: {
+    color: light.danger,
   },
 });
 export default Card;
