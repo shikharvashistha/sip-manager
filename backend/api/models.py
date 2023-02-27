@@ -20,16 +20,15 @@ class FixedAssets(models.Model):
     FixedAssetCode = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.FixedAssetID
+        return self.FixedAssetCode
 
-class UserWalletBalance(models.Model):
+class UserAssetsBalance(models.Model):
     class Meta:
-        db_table = 'UserWalletBalance'
+        db_table = 'UserAssetsBalance'
         app_label = 'api'
-    WalletBalanceID = models.AutoField(primary_key=True)
+    WalletAssetBalanceID = models.AutoField(primary_key=True)
     walletID = models.ForeignKey(UserWallet, on_delete=models.CASCADE)
-    AssetName = models.ForeignKey(FixedAssets, on_delete=models.CASCADE)
-    Balance = models.FloatField(default=0.0)
+    Balance = models.FloatField(default=0.0) # Balance in USDC
 
     def __str__(self):
         return self.AssetID
@@ -45,6 +44,8 @@ class SIP(models.Model):
     SIPFrequency = models.CharField(max_length=100)
     SIPStartDate = models.DateField()
     SIPEndDate = models.DateField()
+    TotalInvestedAmount = models.FloatField(default=0.0)
+    CurrentInvestedAmount = models.FloatField(default=0.0)
     EnoughBalance = models.BooleanField(default=True)
     SIPStatus = models.BooleanField(default=True)
 
@@ -58,8 +59,8 @@ class SIPAssets(models.Model):
     SIPAssetID = models.AutoField(primary_key=True)
     SIPID = models.ForeignKey(SIP, on_delete=models.CASCADE)
     AssetName = models.ForeignKey(FixedAssets, on_delete=models.CASCADE)
-    AssetAmount = models.FloatField(default=0.0)
-    SIPAssetStatus = models.BooleanField(default=True)
+    AssetPercentage = models.FloatField(default=0.0)
+    AssetStatus = models.BooleanField(default=True)
 
     def __str__(self):
         return self.SIPAssetID

@@ -5,6 +5,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 import datetime
 import requests
@@ -29,21 +31,26 @@ class SignUp(APIView):
         user = User.objects.create_user(username=email, email=email, password=password)
         user.save()
 
-        wallet = UserWallet.objects.create(userID=user)
-        wallet.save()
-
-        btc = FixedAssets.objects.create(FixedAssetCode='BTC')
-        btc.save()
-
-        balance = UserWalletBalance.objects.create(walletID=wallet, AssetName=btc, Balance=100.0)
-        balance.save()
-
-        sip = SIP.objects.create(userID=user, SIPName='Default SIP', SIPAmount=100.0, SIPFrequency='Monthly', SIPStartDate=datetime.date.today(), SIPEndDate=datetime.date.today() + datetime.timedelta(days=365), SIPStatus=True)
-        sip.save()
-
         token = Token.objects.create(user=user)
         token.save()
-        return Response({"token": token.key, "userID": user.id, "SIPID": sip.SIPID}, status=status.HTTP_201_CREATED)
+
+        wallet = UserWalletSerializer.create(UserWalletSerializer(), validated_data={'userID': user})
+
+        btc = FixedAssetsSerializer.create(FixedAssetsSerializer(), validated_data={'FixedAssetCode': 'BTC'})
+        eth = FixedAssetsSerializer.create(FixedAssetsSerializer(), validated_data={'FixedAssetCode': 'ETH'})
+        tether = FixedAssetsSerializer.create(FixedAssetsSerializer(), validated_data={'FixedAssetCode': 'USDT'})
+        dodge = FixedAssetsSerializer.create(FixedAssetsSerializer(), validated_data={'FixedAssetCode': 'DOGE'})
+
+        UserAssetsBalanceSerializer.create(UserAssetsBalanceSerializer(), validated_data={'walletID': wallet, 'Balance': 100.0})
+
+        sip = SIPSerializer.create(SIPSerializer(), validated_data={'userID': user, 'SIPName': 'Default SIP', 'SIPAmount': 100.0, 'SIPFrequency': 'Monthly', 'SIPStartDate': datetime.date.today(), 'SIPEndDate': datetime.date.today() + datetime.timedelta(days=365), 'SIPStatus': True, 'TotalInvestedAmount': 0.0, 'CurrentInvestedAmount': 0.0})
+
+        SIPAssetsSerializer.create(SIPAssetsSerializer(), validated_data={'SIPID': sip, 'AssetName': btc, 'AssetPercentage': 25.0})
+        SIPAssetsSerializer.create(SIPAssetsSerializer(), validated_data={'SIPID': sip, 'AssetName': eth, 'AssetPercentage': 25.0})
+        SIPAssetsSerializer.create(SIPAssetsSerializer(), validated_data={'SIPID': sip, 'AssetName': tether, 'AssetPercentage': 25.0})
+        SIPAssetsSerializer.create(SIPAssetsSerializer(), validated_data={'SIPID': sip, 'AssetName': dodge, 'AssetPercentage': 25.0})
+
+        return Response({"userID": user.id, "sipID": sip.SIPID, "token": token.key}, status=status.HTTP_201_CREATED)
 
 class SignIn(APIView):
     def post(self, request):
@@ -66,88 +73,181 @@ class SignOut(APIView):
         logout(request)
         return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
 
-class SIPDetails(APIView):
+class UserBalance(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request, userID):
+        walletBalance = 0
+        investedAmount = 0
+        currentAssetValue = 0
+        user = User.objects.get(id=userID)
+        userWallet = UserWalletSerializer.getUserWallet(UserWalletSerializer(), userID=user)
+        userWalletBalance = UserAssetsBalance.objects.get(walletID=userWallet)
+        walletBalance = userWalletBalance.Balance
+        url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Ctether&vs_currencies=usd"
+        response = requests.get(url)
+        data = response.json()
+        sip = SIP.objects.filter(userID=user)
+        for s in sip:
+            investedAmount = investedAmount + s.SIPAmount
+            sipAssets = SIPAssets.objects.filter(SIPID=s)
+            for sa in sipAssets:
+                assetAmount = (s.SIPAmount * sa.AssetPercentage) / 100
+                if sa.AssetName.FixedAssetCode == 'BTC':
+                    currentAssetValue = currentAssetValue + (assetAmount * data['bitcoin']['usd'])
+                elif sa.AssetName.FixedAssetCode == 'ETH':
+                    currentAssetValue = currentAssetValue + (assetAmount * data['ethereum']['usd'])
+                elif sa.AssetName.FixedAssetCode == 'USDT':
+                    currentAssetValue = currentAssetValue + (assetAmount * data['tether']['usd'])
+
+        return Response({"walletBalance": walletBalance, "investedAmount": investedAmount, "currentAssetValue": currentAssetValue}, status=status.HTTP_200_OK)
+
+
+class UserWallet(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, _, userID):
         user = User.objects.get(id=userID)
-        sips = SIP.objects.filter(userID=user)
-        serializer = SIPSerializer(sips, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-class CreateSIP(APIView):
-    def post(self, request, userID):
-        user = User.objects.get(id=userID)
-        sip = SIP.objects.create(userID=user, SIPName=request.data.get("SIPName"), SIPAmount=request.data.get("SIPAmount"), SIPFrequency=request.data.get("SIPFrequency"), SIPStartDate=datetime.date.today(), SIPEndDate=request.data.get("SIPEndDate"), SIPStatus=True)
-        sip.save()
-        assets = SIPAssets.objects.create(SIPID=sip, AssetName=FixedAssets.objects.get(FixedAssetCode='BTC'), AssetAmount=100.0)
-        assets.save()
-        return Response({"message": "SIP created successfully", "SIPID": sip.SIPID}, status=status.HTTP_201_CREATED)
-
-class AddAssetToSIP(APIView):
-    def post(self, request, userID, sipID):
-        user = User.objects.get(id=userID)
-        sip = SIP.objects.get(SIPID=sipID)
-        asset = FixedAssets.objects.get(FixedAssetCode=request.data.get("FixedAssetCode"))
-        if SIPAssets.objects.filter(SIPID=sip, AssetName=asset).exists():
-            sipAsset = SIPAssets.objects.get(SIPID=sip, AssetName=asset)
-            sipAsset.AssetAmount += request.data.get("AssetAmount")
-            sipAsset.save()
-            return Response({"message": "Asset amount updated successfully"}, status=status.HTTP_200_OK)
-        sipAsset = SIPAssets.objects.create(SIPID=sip, AssetName=asset, AssetAmount=request.data.get("AssetAmount"))
-        sipAsset.save()
-        return Response({"message": "Asset added to the SIP successfully"}, status=status.HTTP_200_OK)
+        sip = SIP.objects.get(userID=user)
+        sipAssets = SIPAssets.objects.filter(SIPID=sip)
+        assets = []
+        for sa in sipAssets:
+            assetAmount = (sip.SIPAmount * sa.AssetPercentage) / 100
+            assets.append({"AssetName": sa.AssetName.FixedAssetCode, "AssetBalance": assetAmount})
+        return Response(assets, status=status.HTTP_200_OK)
 
 
-class RemoveAssetFromSIP(APIView):
-    def post(self, request, userID, sipID):
-        user = User.objects.get(id=userID)
-        sip = SIP.objects.get(SIPID=sipID)
-        asset = FixedAssets.objects.get(FixedAssetCode=request.data.get("FixedAssetCode"))
-        if not SIPAssets.objects.filter(SIPID=sip, AssetName=asset).exists():
-            return Response({"error": "Asset not present in the SIP"}, status=status.HTTP_400_BAD_REQUEST)
-        sipAsset = SIPAssets.objects.get(SIPID=sip, AssetName=asset)
-        sipAsset.delete()
-        return Response({"message": "Asset removed from the SIP successfully"}, status=status.HTTP_200_OK)
-
-class GetUserBalance(APIView):
+class UserSIP(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, _, userID):
+        #doge coin as well in url
+        url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Ctether&vs_currencies=usd"
+        response = requests.get(url)
+        data = response.json()
         user = User.objects.get(id=userID)
-        wallet = UserWallet.objects.get(userID=user)
-        walletBalance = UserWalletBalance.objects.filter(walletID=wallet)
-        serializer = UserWalletBalanceSerializer(walletBalance, many=True)
+        sip = SIP.objects.filter(userID=user)
+        for s in sip:
+            sipAssets = SIPAssets.objects.filter(SIPID=s)
+            for sa in sipAssets:
+                assetAmount = (s.SIPAmount * sa.AssetPercentage) / 100
+                s.CurrentInvestedAmount = s.CurrentInvestedAmount + assetAmount
+                if sa.AssetName.FixedAssetCode == 'BTC':
+                    s.TotalInvestedAmount = s.TotalInvestedAmount + (assetAmount * data['bitcoin']['usd'])
+                elif sa.AssetName.FixedAssetCode == 'ETH':
+                    s.TotalInvestedAmount = s.TotalInvestedAmount + (assetAmount * data['ethereum']['usd'])
+                elif sa.AssetName.FixedAssetCode == 'USDT':
+                    s.TotalInvestedAmount = s.TotalInvestedAmount + (assetAmount * data['tether']['usd'])
+                elif sa.AssetName.FixedAssetCode == 'DOGE':
+                    s.TotalInvestedAmount = s.TotalInvestedAmount + (assetAmount * data['tether']['usd'])
+        serializer = SIPSerializer(sip, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class GetUserWalletBalance(APIView):
-    def get(self, _, userID, fixedAssetCode):
-        user = User.objects.get(id=userID)
-        wallet = UserWallet.objects.get(userID=user)
-        fixedAsset = FixedAssets.objects.get(FixedAssetCode=fixedAssetCode)
-        walletBalance = UserWalletBalance.objects.get(walletID=wallet, AssetName=fixedAsset)
-        serializer = UserWalletBalanceSerializer(walletBalance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-class GetUserWalletBalanceTotal(APIView):
-    def get(self, _, userID, fixedAssetCode):
-        user = User.objects.get(id=userID)
-        wallet = UserWallet.objects.get(userID=user)
-        fixedAsset = FixedAssets.objects.get(FixedAssetCode=fixedAssetCode)
-        walletBalance = UserWalletBalance.objects.get(walletID=wallet, AssetName=fixedAsset)
-        return Response({"total": walletBalance.Balance}, status=status.HTTP_200_OK)
-
-class GetSIPBalance(APIView):
+class UserSIPAssets(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, _, userID, sipID):
         user = User.objects.get(id=userID)
-        sip = SIP.objects.get(SIPID=sipID)
+        sip = SIP.objects.get(userID=user, SIPID=sipID)
         sipAssets = SIPAssets.objects.filter(SIPID=sip)
-        response = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
-        data = response.json()
-        total = 0
-        print(data)
-        for sipAsset in sipAssets:
-            if sipAsset.AssetName.FixedAssetCode == "BTC":
-                total += sipAsset.AssetAmount * data['bitcoin']['usd']
-        return Response({"total": total}, status=status.HTTP_200_OK)
+        assets = []
+        for sa in sipAssets:
+            assetAmount = (sip.SIPAmount * sa.AssetPercentage) / 100
+            assets.append({"AssetName": sa.AssetName.FixedAssetCode, "AssetBalance": assetAmount, "AssetPercentage": sa.AssetPercentage})
+        return Response(assets, status=status.HTTP_200_OK)
 
-def job():
+class UserSIPAssets(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, userID, sipID):
+        user = User.objects.get(id=userID)
+        sip = SIP.objects.get(userID=user, SIPID=sipID)
+        sip.SIPAmount = request.data['SIPAmount']
+        sip.save()
+        return Response({"message": "SIP updated successfully"}, status=status.HTTP_200_OK)
+
+class UserSIPAssetsEdit(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, userID, sipID):
+        user = User.objects.get(id=userID)
+        sip = SIP.objects.get(userID=user, SIPID=sipID)
+        sipAssets = SIPAssets.objects.filter(SIPID=sip)
+        for sa in sipAssets:
+            if sa.AssetName.FixedAssetCode == request.data['AssetName']:
+                sa.AssetPercentage = request.data['AssetPercentage']
+                sa.AssetStatus = request.data['AssetStatus']
+                sa.save()
+                return Response({"message": "SIP updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Asset not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserWalletDeposit(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, userID):
+        user = User.objects.get(id=userID)
+        walletID = UserWalletSerializer.getUserWallet(UserWalletSerializer, userID=user)
+        wallet = UserAssetsBalanceSerializer.updateUserWalletBalance(UserAssetsBalanceSerializer, walletID=walletID, amount=request.data['Amount'])
+        wallet.Balance = wallet.Balance + request.data['Amount']
+        wallet.save()
+        return Response({"message": "Wallet updated successfully"}, status=status.HTTP_200_OK)
+
+class UserSIPAdd(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, userID):
+        user = User.objects.get(id=userID)
+        walletID = UserWalletSerializer.getUserWallet(UserWalletSerializer, userID=user)
+        wallet = UserAssetsBalanceSerializer.updateUserWalletBalance(UserAssetsBalanceSerializer, walletID=walletID, amount=request.data['SIPAmount'])
+        if wallet.Balance >= request.data['SIPAmount']:
+            wallet.Balance = wallet.Balance - request.data['SIPAmount']
+            wallet.save()
+            sip = SIP()
+            sip.userID = user
+            sip.SIPAmount = request.data['SIPAmount']
+            sip.SIPFrequency = request.data['SIPFrequency']
+            sip.SIPStartDate = request.data['SIPStartDate']
+            sip.SIPEndDate = request.data['SIPEndDate']
+            sip.save()
+            for asset in request.data['Assets']:
+                sipAsset = SIPAssets()
+                sipAsset.SIPID = sip
+                sipAsset.AssetName = FixedAssets.objects.get(FixedAssetCode=asset['AssetName'])
+                sipAsset.AssetPercentage = asset['AssetPercentage']
+                sipAsset.AssetStatus = asset['AssetStatus']
+                sipAsset.save()
+            return Response({"message": "SIP added successfully"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Insufficient balance"}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserSIPAssetsAdd(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, userID, sipID):
+        user = User.objects.get(id=userID)
+        sip = SIP.objects.get(userID=user, SIPID=sipID)
+        sipAssets = SIPAssets.objects.filter(SIPID=sip)
+        for sa in sipAssets:
+            if sa.AssetName.FixedAssetCode == request.data['AssetName']:
+                sa.AssetPercentage = sa.AssetPercentage + request.data['AssetPercentage']
+                sa.save()
+                return Response({"message": "SIP updated successfully"}, status=status.HTTP_200_OK)
+        sipAsset = SIPAssets()
+        sipAsset.SIPID = sip
+        sipAsset.AssetName = FixedAssets.objects.get(FixedAssetCode=request.data['AssetName'])
+        sipAsset.AssetPercentage = request.data['AssetPercentage']
+        sipAsset.AssetStatus = request.data['AssetStatus']
+        sipAsset.save()
+        return Response({"message": "SIP updated successfully"}, status=status.HTTP_200_OK)
+
+class FixedAssets(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, _):
+        assets = FixedAssetsSerializer.getFixedAssets(FixedAssetsSerializer)
+        serializer = FixedAssetsSerializer(assets, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     for sip in SIP.objects.all():
             if sip.SIPFrequency == 'Monthly':
                 if datetime.datetime.now().day == 1:
@@ -155,16 +255,16 @@ def job():
                         if sip.SIPEndDate >= datetime.datetime.now().date():
                             if sip.EnoughBalance == True:
                                 if sip.SIPStatus == True:
-                                    for userwalletbalance in UserWalletBalance.objects.all():
-                                        if userwalletbalance.walletID == sip.userID:
-                                            if userwalletbalance.Balance >= sip.SIPAmount:
-                                                userwalletbalance.Balance = userwalletbalance.Balance - sip.SIPAmount
-                                                userwalletbalance.save()
-                                                userwalletbalance2 = UserWalletBalance()
-                                                userwalletbalance2.walletID = sip.userID
-                                                userwalletbalance2.AssetName = sip.AssetName
-                                                userwalletbalance2.Balance = sip.SIPAmount
-                                                userwalletbalance2.save()
+                                    for UserAssetsBalance in UserAssetsBalance.objects.all():
+                                        if UserAssetsBalance.walletID == sip.userID:
+                                            if UserAssetsBalance.Balance >= sip.SIPAmount:
+                                                UserAssetsBalance.Balance = UserAssetsBalance.Balance - sip.SIPAmount
+                                                UserAssetsBalance.save()
+                                                UserAssetsBalance2 = UserAssetsBalance()
+                                                UserAssetsBalance2.walletID = sip.userID
+                                                UserAssetsBalance2.AssetName = sip.AssetName
+                                                UserAssetsBalance2.Balance = sip.SIPAmount
+                                                UserAssetsBalance2.save()
                                             else:
                                                 sip.EnoughBalance = False
                                                 sip.save()
@@ -190,6 +290,8 @@ def job():
 
 
 class SIPCronJob(APIView):
-    def get(self, _):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, _):
         schedule.every().day.at("00:00").do(job)
         return Response({"message": "Cron job scheduled successfully"}, status=status.HTTP_200_OK)
