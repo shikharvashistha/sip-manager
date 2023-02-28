@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class UserWallet(models.Model):
     class Meta:
         db_table = 'UserWallet'
@@ -12,6 +13,7 @@ class UserWallet(models.Model):
     def __str__(self):
         return self.walletID
 
+
 class FixedAssets(models.Model):
     class Meta:
         db_table = 'FixedAssets'
@@ -22,16 +24,18 @@ class FixedAssets(models.Model):
     def __str__(self):
         return self.FixedAssetCode
 
+
 class UserAssetsBalance(models.Model):
     class Meta:
         db_table = 'UserAssetsBalance'
         app_label = 'api'
     WalletAssetBalanceID = models.AutoField(primary_key=True)
     walletID = models.ForeignKey(UserWallet, on_delete=models.CASCADE)
-    Balance = models.FloatField(default=0.0) # Balance in USDC
+    Balance = models.FloatField(default=0.0)  # Balance in USDC
 
     def __str__(self):
         return self.AssetID
+
 
 class SIP(models.Model):
     class Meta:
@@ -51,6 +55,7 @@ class SIP(models.Model):
 
     def __str__(self):
         return self.SIPID
+
 
 class SIPAssets(models.Model):
     class Meta:

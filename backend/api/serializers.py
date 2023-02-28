@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from .models import *
 
+
 class UserWalletSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserWallet
@@ -15,6 +16,7 @@ class UserWalletSerializer(serializers.ModelSerializer):
     def getUserWallet(self, userID):
         userWallet = UserWallet.objects.get(userID=userID)
         return userWallet
+
 
 class FixedAssetsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,6 +32,7 @@ class FixedAssetsSerializer(serializers.ModelSerializer):
         fixedAssets = FixedAssets.objects.all()
         return fixedAssets
 
+
 class UserAssetsBalanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAssetsBalance
@@ -39,11 +42,13 @@ class UserAssetsBalanceSerializer(serializers.ModelSerializer):
         userAssetsBalance = UserAssetsBalance.objects.create(**validated_data)
         userAssetsBalance.save()
         return userAssetsBalance
+
     def deductUserWalletBalance(self, walletID, amount):
         userAssetsBalance = UserAssetsBalance.objects.get(walletID=walletID)
         userAssetsBalance.Balance = userAssetsBalance.Balance - amount
         userAssetsBalance.save()
         return userAssetsBalance
+
     def addUserWalletBalance(self, walletID, amount):
         userAssetsBalance = UserAssetsBalance.objects.get(walletID=walletID)
         userAssetsBalance.Balance = userAssetsBalance.Balance + amount
@@ -60,6 +65,7 @@ class SIPSerializer(serializers.ModelSerializer):
         sip = SIP.objects.create(**validated_data)
         sip.save()
         return sip
+
 
 class SIPAssetsSerializer(serializers.ModelSerializer):
     class Meta:
