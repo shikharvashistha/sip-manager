@@ -8,6 +8,7 @@ import MIcons from 'react-native-vector-icons/MaterialIcons';
 import Profile from '../screens/user/Profile';
 import Wallet from '../screens/user/Wallet';
 import Sip from '../screens/user/Sip';
+import SipRoutes from './SipRoutes';
 
 function UserNav() {
   const Tab = createBottomTabNavigator();
@@ -45,7 +46,7 @@ function UserNav() {
       />
       <Tab.Screen
         name="sip"
-        component={Sip}
+        component={SipRoutes}
         options={{
           tabBarIcon: ({color, size}) => (
             <MIcons name="dialer-sip" color={color} size={size} />

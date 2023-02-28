@@ -7,7 +7,15 @@ const {width, height} = Dimensions.get('screen');
 const CONTAINER_VERTICAL_SPACE = 10;
 const LABLE_SPACE = 5;
 
-const Input = ({label, type, onChange, password, focus, value}) => {
+const Input = ({
+  label,
+  type,
+  onChange,
+  password,
+  focus,
+  value,
+  placeholder,
+}) => {
   const [isFocus, setFocus] = useState(false);
 
   const focusChange = () => {
@@ -28,7 +36,7 @@ const Input = ({label, type, onChange, password, focus, value}) => {
           }}
           secureTextEntry={password}
           autoFocus={focus}
-          placeholder={label}
+          placeholder={placeholder || label}
           onChangeText={onChange}
           placeholderTextColor={light.secondary}
           onFocus={focusChange}

@@ -3,7 +3,7 @@ import React from 'react';
 import FastImage from 'react-native-fast-image';
 import {layout, light} from '../../theme/Theme';
 
-const AssetItem = () => {
+const AssetItem = ({item, sip}) => {
   return (
     <View style={styles.sip_asset}>
       <View style={styles.flex_row_between}>
@@ -15,7 +15,7 @@ const AssetItem = () => {
             style={styles.sip_asset_logo}
             resizeMode={FastImage.resizeMode.contain}
           />
-          <Text style={styles.asset_name}>Btc</Text>
+          <Text style={styles.asset_name}>{item.AssetName}</Text>
         </View>
         <View>
           <Text
@@ -32,14 +32,15 @@ const AssetItem = () => {
               textAlign: 'right',
               fontSize: 12,
             }}>
-            50% = {100 * (50 / 100)}/m
+            {item.AssetPercentage}% ={' '}
+            {sip.SIPAmount * (item.AssetPercentage / 100)}/m
           </Text>
         </View>
       </View>
       <View style={{...styles.flex_row_between, ...styles.asset_item}}>
         <View>
           <Text style={styles.asset_value_lable}>Balance</Text>
-          <Text style={styles.asset_value}>0.000004</Text>
+          <Text style={styles.asset_value}>{item.AssetBalance}</Text>
         </View>
         <View>
           <Text style={{...styles.asset_value_lable, textAlign: 'right'}}>

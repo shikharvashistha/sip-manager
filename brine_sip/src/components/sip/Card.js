@@ -18,19 +18,33 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Btn from '../common/Button';
+import {amountFormatter} from '../../utils/textFormatter';
+import {getSipAssets} from '../../actions/sip';
+import {useSelector} from 'react-redux';
 
-const Card = ({onEdit}) => {
+const Card = ({onEdit, item}) => {
   const assetRef = useRef(null);
   const cardRef = useRef(null);
   const [assetsHeight, setAssetsHeight] = useState(null);
-  const [flag, setFlag] = useState(0);
-
+  const [assets, setAssets] = useState(null);
+  const {userId} = useSelector(state => state.user);
   const asset_height = useSharedValue(220);
   const animatedStyle = useAnimatedStyle(() => {
     return {
       height: asset_height.value,
     };
   });
+
+  const initialFunction = async () => {
+    try {
+      const {data} = await getSipAssets({userID: userId, SIPID: item.SIPID});
+      setAssets(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (assetRef?.current) {
       assetRef.current?.measureLayout(
@@ -41,8 +55,11 @@ const Card = ({onEdit}) => {
         },
       );
     }
-  }, [assetRef?.current]);
+  }, [assetRef?.current, assets]);
 
+  useEffect(() => {
+    initialFunction();
+  }, []);
   return (
     <TouchableWithoutFeedback
       style={styles.tochable}
@@ -54,28 +71,48 @@ const Card = ({onEdit}) => {
       }}>
       <Animated.View style={[styles.plan_card, animatedStyle]} ref={cardRef}>
         <Text style={styles.sip_badge}>
-          {/* <Text style={styles.text_danger}>Inactive</Text> */}
-          <Text style={styles.text_success}>Active</Text>
+          {item.SIPStatus ? (
+            <Text style={styles.text_success}>Active</Text>
+          ) : (
+            <Text style={styles.text_danger}>Inactive</Text>
+          )}
+          {/*  */}
         </Text>
         <View style={styles.sip_details}>
-          <Text style={styles.sip_name}>SIP Plan 1</Text>
+          <Text style={styles.sip_name}>{item.SIPName}</Text>
           <Text style={styles.sip_subname}>
             Total investment (usdc) :{' '}
-            <Text style={styles.sip_max_value}>100/m</Text>
+            <Text style={styles.sip_max_value}>{item.SIPAmount}/m</Text>
           </Text>
           <View style={styles.protfolio}>
             <View style={styles.porfolio_item_wrapper}>
               <Text style={styles.portfolio_heading}>Invested</Text>
               <View style={styles.flex_row_center}>
-                <Text style={styles.portfolio_value}>100.45</Text>
-                <Text style={styles.returns_profit}>+300%</Text>
+                <Text style={styles.portfolio_value}>
+                  {item.CurrentInvestedAmount}
+                </Text>
+                <Text style={styles.returns_profit}>
+                  +
+                  {amountFormatter(
+                    (item.TotalInvestedAmount - item.CurrentInvestedAmount) /
+                      item.CurrentInvestedAmount,
+                  )}
+                  %
+                </Text>
               </View>
             </View>
             <View style={styles.porfolio_item_wrapper}>
               <Text style={styles.portfolio_heading}>Current</Text>
               <View style={styles.flex_row_center}>
-                <Text style={styles.portfolio_value}>300.34</Text>
-                <Text style={styles.returns_profit}>+200</Text>
+                <Text style={styles.portfolio_value}>
+                  {item.TotalInvestedAmount.toFixed(2)}
+                </Text>
+                <Text style={styles.returns_profit}>
+                  +
+                  {amountFormatter(
+                    item.TotalInvestedAmount - item.CurrentInvestedAmount,
+                  )}
+                </Text>
               </View>
             </View>
           </View>
@@ -92,28 +129,16 @@ const Card = ({onEdit}) => {
               btnMr={15}
               onPress={onEdit}
             />
-            {/* <Btn
-              bg="transparent"
-              text="Deactivate"
-              btnMb={5}
-              btnMt={5}
-              // bg={light.danger}
-              btnPadding={7}
-              borderRadius={7}
-              btnWidth={120}
-              fontSize={11}
-              borderWidth={0.5}
-              textColor={light.dangertint}
-              borderColor={light.dangertint}
-            /> */}
           </View>
         </View>
 
-        <View style={styles.sip_assets} ref={assetRef}>
-          <AssetItem />
-          <AssetItem />
-          <AssetItem />
-        </View>
+        {assets ? (
+          <View style={styles.sip_assets} ref={assetRef}>
+            {assets?.map(e => (
+              <AssetItem key={e.AssetName} item={e} sip={item} />
+            ))}
+          </View>
+        ) : null}
       </Animated.View>
     </TouchableWithoutFeedback>
   );

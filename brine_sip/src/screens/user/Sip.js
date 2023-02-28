@@ -1,35 +1,55 @@
 import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {layout, light} from '../../theme/Theme';
 import Btn from '../../components/common/Button';
 import Card from '../../components/sip/Card';
 import BottomSheet from '../../components/common/BottomSheet';
 import {useSharedValue, withTiming} from 'react-native-reanimated';
+import {getSips} from '../../actions/sip';
+import {useSelector} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('screen');
 const bottomSheet = height * 0.87;
 const initialSheetPos = bottomSheet * 0.36;
 
-const Sip = () => {
+const Sip = ({navigation}) => {
   const bottomSheetY = useSharedValue(0);
+  const {userId} = useSelector(state => state.user);
+  const [data, setData] = useState(null);
+  const initialFunction = async () => {
+    try {
+      const {data} = await getSips({userID: userId});
+      console.log(data);
+      setData(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-  ];
+  useFocusEffect(
+    useCallback(() => {
+      initialFunction();
+      return () => initialFunction();
+    }, []),
+  );
+  // const DATA = [
+  //   {
+  //     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+  //     title: 'First Item',
+  //   },
+  //   {
+  //     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+  //     title: 'Second Item',
+  //   },
+  // ];
   const onEdit = () => {
     bottomSheetY.value = withTiming(-bottomSheet);
   };
   return (
     <View style={styles.container}>
       <FlatList
-        data={DATA}
+        data={data}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <View style={styles.header}>
@@ -43,11 +63,14 @@ const Sip = () => {
               borderRadius={10}
               btnMb={1}
               btnMt={1}
+              onPress={() => {
+                navigation.navigate('add_sip');
+              }}
             />
           </View>
         )}
-        renderItem={({item}) => <Card onEdit={onEdit} />}
-        keyExtractor={item => item.id}
+        renderItem={({item}) => <Card onEdit={onEdit} item={item} />}
+        keyExtractor={item => item.SIPID}
         stickyHeaderIndices={[0]}
         bounces={false}
       />

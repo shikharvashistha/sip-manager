@@ -3,6 +3,7 @@ import axiosInstance from '../axios';
 export const signinAction = async ({data}) => {
   const {email, password} = data;
   const res = await axiosInstance.post('/sign/in/', {email, password});
+  console.log(res);
   return res;
 };
 

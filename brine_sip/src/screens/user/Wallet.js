@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {layout, light} from '../../theme/Theme';
 import Btn from '../../components/common/Button';
 import {getCryptoValues} from '../../actions/coinGeko';
@@ -8,6 +8,8 @@ import FastImage from 'react-native-fast-image';
 import {getWalletBalence} from '../../actions/wallet';
 import {useSelector} from 'react-redux';
 import AssetCard from '../../components/home/AssetCard';
+import {amountFormatter} from '../../utils/textFormatter';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Wallet = () => {
   const [data, setData] = useState();
@@ -19,17 +21,20 @@ const Wallet = () => {
   const initialFunction = async () => {
     try {
       const {data} = await getWalletBalence({userID: userId});
-      setData(data);
-      setTotalBalance(data[0].Balance);
+      setTotalBalance(data.walletBalance);
+      setInvested(data.investedAmount);
+      setCurrent(data.currentAssetValue);
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
-    // getAssets();
-    initialFunction();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      initialFunction();
+      return () => initialFunction();
+    }, []),
+  );
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -44,34 +49,37 @@ const Wallet = () => {
             <Text style={styles.portfolio_heading}>Invested</Text>
             <View style={styles.flex_row_center}>
               <Text style={styles.portfolio_value}>{invested.toFixed(2)}</Text>
-              <Text
-                style={
-                  current - invested >= 0
-                    ? styles.returns_profit
-                    : styles.returns_loss
-                }>
-                {invested === 0
-                  ? (0).toFixed(2)
-                  : (current - invested) / current}
-                %
-              </Text>
+              {current - invested >= 0 ? (
+                <Text style={styles.returns_profit}>
+                  +
+                  {invested === 0
+                    ? (0).toFixed(2)
+                    : amountFormatter((current - invested) / invested)}
+                  %
+                </Text>
+              ) : (
+                <Text style={styles.returns_loss}>
+                  {invested === 0
+                    ? (0).toFixed(2)
+                    : amountFormatter((current - invested) / invested)}
+                  %
+                </Text>
+              )}
             </View>
           </View>
           <View style={styles.porfolio_item_wrapper}>
             <Text style={styles.portfolio_heading}>Current</Text>
             <View style={styles.flex_row_center}>
-              <Text style={styles.portfolio_value}>{invested.toFixed(2)}</Text>
-              <Text
-                style={
-                  current - invested >= 0
-                    ? styles.returns_profit
-                    : styles.returns_loss
-                }>
-                {invested === 0
-                  ? (0).toFixed(2)
-                  : (current - invested) / current}
-                %
-              </Text>
+              <Text style={styles.portfolio_value}>{current.toFixed(2)}</Text>
+              {current - invested >= 0 ? (
+                <Text style={styles.returns_profit}>
+                  +{amountFormatter(current - invested)}
+                </Text>
+              ) : (
+                <Text style={styles.returns_loss}>
+                  {amountFormatter(current - invested)}
+                </Text>
+              )}
             </View>
           </View>
         </View>
@@ -88,9 +96,9 @@ const Wallet = () => {
       </View>
       <View style={styles.assets_wrapper}>
         <Text style={styles.asset_label}>Your Assets</Text>
-        {data?.map(item => (
+        {/* {data?.map(item => (
           <AssetCard item={item} key={item.AssetName} />
-        ))}
+        ))} */}
       </View>
     </ScrollView>
   );

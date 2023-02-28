@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Btn from '../../components/common/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {layout, light} from '../../theme/Theme';
@@ -12,6 +12,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Assets from '../../components/home/Assets';
 import {getWalletBalence} from '../../actions/wallet';
 import SipCard from '../../components/home/SipCard';
+import {amountFormatter} from '../../utils/textFormatter';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('screen');
 const LAYOUT_SPACING = 25;
@@ -32,20 +34,33 @@ const Home = () => {
   const initialFunction = async () => {
     try {
       const {data} = await getWalletBalence({userID: userId});
-      console.log(data[0].Balance);
-      setTotalBalance(data[0].Balance);
+      console.log(data);
+      setTotalBalance(data.walletBalance);
+      setInvested(data.investedAmount);
+      setCurrent(data.currentAssetValue);
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
-    const full_name = email.split('@')[0];
-    const first_name = full_name.split('.')[0];
-    if (first_name) setUserName(first_name);
-    else setUserName(full_name);
-    initialFunction();
-  }, []);
+  // useEffect(() => {
+  //   const full_name = email.split('@')[0];
+  //   const first_name = full_name.split('.')[0];
+  //   if (first_name) setUserName(first_name);
+  //   else setUserName(full_name);
+  //   initialFunction();
+  // }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const full_name = email.split('@')[0];
+      const first_name = full_name.split('.')[0];
+      if (first_name) setUserName(first_name);
+      else setUserName(full_name);
+      initialFunction();
+      console.log('focused');
+      return () => initialFunction();
+    }, []),
+  );
 
   const signout = async () => {
     try {
@@ -87,31 +102,38 @@ const Home = () => {
                 <Text style={styles.portfolio_value}>
                   {invested.toFixed(2)}
                 </Text>
-                <Text
-                  style={
-                    current - invested >= 0
-                      ? styles.returns_profit
-                      : styles.returns_loss
-                  }>
-                  {invested === 0
-                    ? (0).toFixed(2)
-                    : (current - invested) / current}
-                  %
-                </Text>
+                {current - invested >= 0 ? (
+                  <Text style={styles.returns_profit}>
+                    +
+                    {invested === 0
+                      ? (0).toFixed(2)
+                      : amountFormatter((current - invested) / invested)}
+                    %
+                  </Text>
+                ) : (
+                  <Text style={styles.returns_loss}>
+                    {invested === 0
+                      ? (0).toFixed(2)
+                      : amountFormatter((current - invested) / invested)}
+                    %
+                  </Text>
+                )}
               </View>
             </View>
             <View style={styles.porfolio_item_wrapper}>
               <Text style={styles.portfolio_heading}>Current</Text>
               <View style={styles.flex_row_center}>
                 <Text style={styles.portfolio_value}>{current.toFixed(2)}</Text>
-                <Text
-                  style={
-                    current - invested >= 0
-                      ? styles.returns_profit
-                      : styles.returns_loss
-                  }>
-                  {(current - invested).toFixed(2)}
-                </Text>
+
+                {current - invested >= 0 ? (
+                  <Text style={styles.returns_profit}>
+                    +{amountFormatter(current - invested)}
+                  </Text>
+                ) : (
+                  <Text style={styles.returns_loss}>
+                    {amountFormatter(current - invested)}
+                  </Text>
+                )}
               </View>
             </View>
           </View>
@@ -186,6 +208,10 @@ const styles = StyleSheet.create({
   },
   flex_row_center: {
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  flex_center_center: {
+    flexDirection: 'column',
     alignItems: 'center',
   },
   base_coin: {
