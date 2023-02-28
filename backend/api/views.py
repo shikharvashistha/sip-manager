@@ -231,7 +231,6 @@ class UserWalletDeposit(APIView):
         user = User.objects.get(id=userID)
         walletID = UserWalletSerializer.getUserWallet(UserWalletSerializer, userID=user)
         wallet = UserAssetsBalanceSerializer.addUserWalletBalance(UserAssetsBalanceSerializer, walletID=walletID, amount=request.data['Amount'])
-        wallet.Balance = wallet.Balance + request.data['Amount']
         wallet.save()
         return Response({"message": "Wallet updated successfully"}, status=status.HTTP_200_OK)
 
@@ -338,4 +337,4 @@ class SIPCronJob(APIView):
         schedule.every().day.at("00:00").do(job)
         return Response({"message": "Cron job scheduled successfully"}, status=status.HTTP_200_OK)
 
-job()
+#job()
